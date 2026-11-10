@@ -6,33 +6,34 @@
  * ONDE CADA INTEGRANTE DEVE PROCURAR SEU REQUISITO NESTE ARQUIVO:
  *
  * • INTEGRANTE 1 (Requisito 1 — 4 Páginas e UI/UX):
- *   - Linha 54: Decorator `@Component` da 2ª Página (`CatalogoPage`, standalone: true).
+ *   - Decorator `@Component` da 2ª Página (`CatalogoPage`, standalone: true).
  *
  * • INTEGRANTE 2 (Requisito 2 — API com 3 GETs & Requisito 4 — 1º Service):
- *   - Linha 94: Injeção do 1º Service (`private readonly roupasService = inject(RoupasService)`).
- *   - Linhas 137 a 158: Método `carregarRoupasPorDepartamento()` que alterna entre:
+ *   - Injeção do 1º Service (`private readonly roupasService = inject(RoupasService)`).
+ *   - Método `carregarRoupasPorDepartamento()` que alterna entre:
  *     • MÉTODO GET 1: `this.roupasService.getRoupasMasculinas()`
  *     • MÉTODO GET 2: `this.roupasService.getRoupasFemininas()`
  *
  * • INTEGRANTE 3 (Requisito 4 — 2º Service & Requisito 6 — Parâmetro por Rota):
- *   - Linha 95: Injeção do 2º Service (`public readonly sacolaService = inject(SacolaService)`).
- *   - Linhas 164 a 174: Método `adicionarNaSacola()` que salva a roupa no `SacolaService`.
+ *   - Injeção do 2º Service (`public readonly sacolaService = inject(SacolaService)`).
+ *   - Método `adicionarNaSacola()` que salva a roupa no `SacolaService`.
  *   - (No HTML desta página está o `[routerLink]="['/detalhes', roupa.id]"` do Ponto Extra).
  *
  * • INTEGRANTE 4 (Requisito 3 — 4 Pipes: 2 Personalizadas + 2 Built-in):
- *   - Linhas 60 e 61: Importação das 2 Pipes Built-in (`CurrencyPipe`, `UpperCasePipe`).
- *   - Linhas 63 e 64: Importação das 2 Pipes Personalizadas (`TraduzirCategoriaPipe`, `DescontoPixPipe`).
+ *   - Importação das 2 Pipes Built-in (`CurrencyPipe`, `UpperCasePipe`).
+ *   - Importação das 2 Pipes Personalizadas (`TraduzirCategoriaPipe`, `DescontoPixPipe`).
  *
  * • INTEGRANTE 5 (Requisito 5 — 2 Diretivas Personalizadas + `@if` e `@for`):
- *   - Linhas 66 e 67: Importação das 2 Diretivas Personalizadas (`DestaqueCardDirective`, `BadgePromoDirective`).
- *   - Linha 110: Variável `carregando` controlada pela diretiva estrutural `@if` no HTML.
- *   - Linha 100: Array `listaRoupas` percorrido pela diretiva estrutural `@for` no HTML.
+ *   - Importação das 2 Diretivas Personalizadas (`DestaqueCardDirective`, `BadgePromoDirective`).
+ *   - Variável `carregando` controlada pela diretiva estrutural `@if` no HTML.
+ *   - Array `listaRoupas` percorrido pela diretiva estrutural `@for` no HTML.
  * ============================================================================
  */
 
-import { Component, OnInit, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { CurrencyPipe, UpperCasePipe } from '@angular/common';
+import type { OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, inject } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import {
   IonHeader,
   IonToolbar,
@@ -57,12 +58,13 @@ import {
   IonChip,
 } from '@ionic/angular';
 
-import { RoupasService, ProdutoRoupa } from '../../services/roupas.service';
-import { SacolaService } from '../../services/sacola.service';
-import { TraduzirCategoriaPipe } from '../../pipes/traduzir-categoria.pipe';
-import { DescontoPixPipe } from '../../pipes/desconto-pix.pipe';
-import { DestaqueCardDirective } from '../../directives/destaque-card.directive';
 import { BadgePromoDirective } from '../../directives/badge-promo.directive';
+import { DestaqueCardDirective } from '../../directives/destaque-card.directive';
+import { DescontoPixPipe } from '../../pipes/desconto-pix.pipe';
+import { TraduzirCategoriaPipe } from '../../pipes/traduzir-categoria.pipe';
+import type { ProdutoRoupa } from '../../services/roupas.service';
+import { RoupasService } from '../../services/roupas.service';
+import { SacolaService } from '../../services/sacola.service';
 
 @Component({
   selector: 'app-catalogo',
@@ -113,6 +115,14 @@ export class CatalogoPage implements OnInit {
   private readonly roupasService = inject(RoupasService);
   public readonly sacolaService = inject(SacolaService);
 
+  private readonly route = inject(ActivatedRoute);
+
+  /**
+   * ChangeDetectorRef notifica o Angular 22 (Zoneless) assim que os dados da API chegam,
+   * evitando que a tela fique presa no carregamento.
+   */
+  private readonly cdr = inject(ChangeDetectorRef);
+
   /**
    * Array de roupas retornado pela API (renderizado com @for pelo Integrante 5).
    */
@@ -133,8 +143,15 @@ export class CatalogoPage implements OnInit {
   public ultimoAdicionadoId: number | null = null;
 
   ngOnInit(): void {
-    // Carrega o 1º método GET ao iniciar a tela
-    this.carregarRoupasPorDepartamento('masculino');
+    // Verifica se o usuário clicou em "Moda Masculina" ou "Moda Feminina" na Home
+    this.route.queryParamMap.subscribe((params) => {
+      const linha = params.get('linha');
+      if (linha === 'feminino') {
+        this.carregarRoupasPorDepartamento('feminino');
+      } else {
+        this.carregarRoupasPorDepartamento('masculino');
+      }
+    });
   }
 
   trocarDepartamento(evento: CustomEvent): void {
@@ -151,21 +168,21 @@ export class CatalogoPage implements OnInit {
     this.departamentoAtivo = departamento;
     this.carregando = true;
     this.erroCarregamento = '';
+    this.cdr.detectChanges();
 
     const requisicao$ =
-      departamento === 'masculino'
-        ? this.roupasService.getRoupasMasculinas()
-        : this.roupasService.getRoupasFemininas();
+      departamento === 'masculino' ? this.roupasService.getRoupasMasculinas() : this.roupasService.getRoupasFemininas();
 
     requisicao$.subscribe({
       next: (dados) => {
         this.listaRoupas = dados;
         this.carregando = false;
+        this.cdr.detectChanges();
       },
       error: () => {
-        this.erroCarregamento =
-          'Falha ao consultar a Fake Store API. Verifique a conexão com a internet.';
+        this.erroCarregamento = 'Não foi possível carregar o catálogo no momento. Tente novamente.';
         this.carregando = false;
+        this.cdr.detectChanges();
       },
     });
   }
@@ -177,10 +194,12 @@ export class CatalogoPage implements OnInit {
     evento.stopPropagation();
     this.sacolaService.adicionarItem(roupa);
     this.ultimoAdicionadoId = roupa.id;
+    this.cdr.detectChanges();
 
     setTimeout(() => {
       if (this.ultimoAdicionadoId === roupa.id) {
         this.ultimoAdicionadoId = null;
+        this.cdr.detectChanges();
       }
     }, 1200);
   }

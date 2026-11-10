@@ -6,21 +6,21 @@
   • INTEGRANTE 1 (Requisito 1 — Páginas e UI/UX Streetwear):
     - Estrutura da página `<ion-header>` e `<ion-content>` com estética escura urbana.
   • INTEGRANTE 2 (Requisito 2 — API 3 GETs & Requisito 4 — RoupasService):
-    - Linhas 70 a 83: `<ion-segment>` que dispara o MÉTODO GET 1 (Moda Masculina)
-      e o MÉTODO GET 2 (Moda Feminina) na Fake Store API.
+    - `<ion-segment>` que dispara o MÉTODO GET 1 (Roupas Masculinas) e o MÉTODO GET 2
+      (Roupas Femininas) na Fake Store API.
   • INTEGRANTE 3 (Requisito 4 — SacolaService & Requisito 6 — Parâmetro por Rota):
-    - Linha 116 e 168: `[routerLink]="['/detalhes', roupa.id]"` que passa o ID da
-      roupa clicada por rota para `/detalhes/:id` (Ponto Extra - 1,0 pt).
-    - Linha 178: `(click)="adicionarNaSacola($event, roupa)"` que usa o `SacolaService`.
+    - `[routerLink]="['/detalhes', roupa.id]"` que passa o ID da roupa clicada por rota
+      para `/detalhes/:id` (Ponto Extra - 1,0 pt).
+    - `(click)="adicionarNaSacola($event, roupa)"` que usa o `SacolaService`.
   • INTEGRANTE 4 (Requisito 3 — 4 Pipes):
-    - Linha 134: `{{ roupa.category | traduzirCategoria | uppercase }}` (Pipe Personalizada 1 + Built-in 2).
-    - Linha 146: `{{ roupa.price | currency:'BRL' }}` (Pipe Built-in 1).
-    - Linha 155: `{{ roupa.price | descontoPix:10 | currency:'BRL' }}` (Pipe Personalizada 2 + Built-in 1).
+    - `{{ roupa.category | traduzirCategoria | uppercase }}` (Pipe Personalizada 1 + Built-in 2).
+    - `{{ roupa.price | currency:'BRL' }}` (Pipe Built-in 1).
+    - `{{ roupa.price | descontoPix:10 | currency:'BRL' }}` (Pipe Personalizada 2 + Built-in 1).
   • INTEGRANTE 5 (Requisito 5 — 2 Diretivas Personalizadas + `@if` e `@for`):
-    - Linha 90: Bloco `@if (carregando) { ... } @else { ... }` (Diretiva Estrutural 1).
-    - Linha 108: Bloco `@for (roupa of listaRoupas; track roupa.id)` (Diretiva Estrutural 2).
-    - Linha 115: Atributo `appDestaqueCard` no `<ion-card>` (Diretiva Personalizada 1).
-    - Linha 158: Atributo `appBadgePromo` no `<span>` do PIX (Diretiva Personalizada 2).
+    - Bloco `@if (carregando) { ... } @else { ... }` (Diretiva Estrutural 1).
+    - Bloco `@for (roupa of listaRoupas; track roupa.id)` (Diretiva Estrutural 2).
+    - Atributo `appDestaqueCard` no `<ion-card>` (Diretiva Personalizada 1).
+    - Atributo `appBadgePromo` no `<span>` do PIX (Diretiva Personalizada 2).
   ============================================================================
 -->
 
@@ -33,7 +33,7 @@
         </span>
         <div class="texto-marca">
           <span class="nome-principal">MENINO MAU</span>
-          <span class="subtitulo-marca">CATÁLOGO // FAKE STORE API</span>
+          <span class="subtitulo-marca">CATÁLOGO OFICIAL</span>
         </div>
       </div>
     </ion-title>
@@ -51,11 +51,8 @@
 
       <ion-button routerLink="/sacola" color="light" size="small">
         <ion-icon slot="start" name="bag-handle-outline"></ion-icon>
-        Sacola
-        @if (sacolaService.obterQuantidadeTotal() > 0) {
-          <ion-badge color="success" class="badge-topo">
-            {{ sacolaService.obterQuantidadeTotal() }}
-          </ion-badge>
+        Sacola @if (sacolaService.obterQuantidadeTotal() > 0) {
+        <ion-badge color="success" class="badge-topo"> {{ sacolaService.obterQuantidadeTotal() }} </ion-badge>
         }
       </ion-button>
     </ion-buttons>
@@ -65,32 +62,26 @@
 <ion-content [fullscreen]="true">
   <div class="container-loja">
     <!-- ================================================================== -->
-    <!-- PAINEL DE FILTRO DA API (MÉTODO GET 1 E MÉTODO GET 2 - INTEGRANTE 2) -->
+    <!-- PAINEL DE SELEÇÃO DO CATÁLOGO (MASCULINO E FEMININO)               -->
     <!-- ================================================================== -->
     <div class="painel-topo-catalogo">
       <div class="cabecalho-catalogo">
-        <span class="tag-api">CONECTADO À FAKE STORE API</span>
-        <h1 class="titulo-urbano">DROPS DISPONÍVEIS</h1>
+        <span class="tag-api">COLEÇÃO STREETWEAR</span>
+        <h1 class="titulo-urbano">ESCOLHA O CATÁLOGO</h1>
         <p>
-          Alterne entre as categorias para disparar os métodos <code>GET 1</code> e
-          <code>GET 2</code> do <code>RoupasService</code>, ou clique em uma peça
-          para enviar o parâmetro <code>:id</code> pela rota.
+          Selecione abaixo entre nossas linhas de roupas masculinas e femininas para visualizar as peças disponíveis.
         </p>
       </div>
 
-      <ion-segment
-        [value]="departamentoAtivo"
-        (ionChange)="trocarDepartamento($event)"
-        class="segmento-street"
-      >
+      <ion-segment [value]="departamentoAtivo" (ionChange)="trocarDepartamento($event)" class="segmento-street">
         <ion-segment-button value="masculino">
           <ion-icon name="man-outline"></ion-icon>
-          <ion-label>LINHA MASCULINA (GET 1)</ion-label>
+          <ion-label>Roupas Masculinas</ion-label>
         </ion-segment-button>
 
         <ion-segment-button value="feminino">
           <ion-icon name="woman-outline"></ion-icon>
-          <ion-label>LINHA FEMININA (GET 2)</ion-label>
+          <ion-label>Roupas Femininas</ion-label>
         </ion-segment-button>
       </ion-segment>
     </div>
@@ -99,115 +90,102 @@
     <!-- DIRETIVA ESTRUTURAL 1: @if / @else (Integrante 5 - Requisito 5)    -->
     <!-- ================================================================== -->
     @if (carregando) {
-      <div class="estado-loading">
-        <ion-spinner name="crescent" color="secondary"></ion-spinner>
-        <p>CARREGANDO PEÇAS DA FAKE STORE API...</p>
-      </div>
+    <div class="estado-loading">
+      <ion-spinner name="crescent" color="secondary"></ion-spinner>
+      <p>PREPARANDO AS PEÇAS DA COLEÇÃO...</p>
+    </div>
     } @else if (erroCarregamento) {
-      <div class="estado-loading erro">
-        <p>{{ erroCarregamento }}</p>
-        <ion-button color="secondary" (click)="carregarRoupasPorDepartamento(departamentoAtivo)">
-          Tentar Novamente
-        </ion-button>
-      </div>
+    <div class="estado-loading erro">
+      <p>{{ erroCarregamento }}</p>
+      <ion-button color="secondary" (click)="carregarRoupasPorDepartamento(departamentoAtivo)">
+        Tentar Novamente
+      </ion-button>
+    </div>
     } @else {
-      <ion-grid>
-        <ion-row>
-          <!-- ============================================================ -->
-          <!-- DIRETIVA ESTRUTURAL 2: @for (Integrante 5 - Requisito 5)     -->
-          <!-- ============================================================ -->
-          @for (roupa of listaRoupas; track roupa.id) {
-            <ion-col size="12" sizeSm="6" sizeMd="4">
-              <!--
+    <ion-grid>
+      <ion-row>
+        <!-- ============================================================ -->
+        <!-- DIRETIVA ESTRUTURAL 2: @for (Integrante 5 - Requisito 5)     -->
+        <!-- ============================================================ -->
+        @for (roupa of listaRoupas; track roupa.id) {
+        <ion-col size="12" sizeSm="6" sizeMd="4">
+          <!--
                 • DIRETIVA PERSONALIZADA 1: appDestaqueCard (Integrante 5)
                 • PONTO EXTRA (Requisito 6 - Integrante 3): [routerLink]="['/detalhes', roupa.id]"
               -->
-              <ion-card
-                appDestaqueCard
-                [routerLink]="['/detalhes', roupa.id]"
-                class="card-produto-street"
-              >
-                <!-- Vitrine da Imagem em fundo Branco Puro para contraste máximo -->
-                <div class="vitrine-imagem">
-                  <span class="tag-id">ID #{{ roupa.id }}</span>
-                  <img [src]="roupa.image" [alt]="roupa.title" loading="lazy" />
+          <ion-card appDestaqueCard [routerLink]="['/detalhes', roupa.id]" class="card-produto-street">
+            <!-- Vitrine da Imagem em fundo Branco Puro para contraste máximo -->
+            <div class="vitrine-imagem">
+              <span class="tag-id">COD. {{ roupa.id }}</span>
+              <img [src]="roupa.image" [alt]="roupa.title" loading="lazy" />
 
-                  <ion-chip color="warning" class="chip-nota">
-                    <ion-icon name="star"></ion-icon>
-                    <ion-label>{{ roupa.rating.rate }}</ion-label>
-                  </ion-chip>
-                </div>
+              <ion-chip color="warning" class="chip-nota">
+                <ion-icon name="star"></ion-icon>
+                <ion-label>{{ roupa.rating.rate }}</ion-label>
+              </ion-chip>
+            </div>
 
-                <ion-card-header>
-                  <ion-card-subtitle class="categoria-produto">
-                    <!--
+            <ion-card-header>
+              <ion-card-subtitle class="categoria-produto">
+                <!--
                       • PIPE PERSONALIZADA 1: traduzirCategoria (Integrante 4)
                       • PIPE BUILT-IN 2: uppercase (Integrante 4)
                     -->
-                    {{ roupa.category | traduzirCategoria | uppercase }}
-                  </ion-card-subtitle>
+                {{ roupa.category | traduzirCategoria | uppercase }}
+              </ion-card-subtitle>
 
-                  <ion-card-title class="nome-produto">
-                    {{ roupa.title }}
-                  </ion-card-title>
-                </ion-card-header>
+              <ion-card-title class="nome-produto"> {{ roupa.title }} </ion-card-title>
+            </ion-card-header>
 
-                <ion-card-content class="corpo-card">
-                  <!-- Quadro de Preços em Preto Profundo com destaque Verde Limão Neon -->
-                  <div class="box-precos-street">
-                    <span class="preco-de">
-                      <!-- PIPE BUILT-IN 1: currency:'BRL' (Integrante 4) -->
-                      Tabela: {{ roupa.price | currency:'BRL' }}
-                    </span>
+            <ion-card-content class="corpo-card">
+              <!-- Quadro de Preços em Preto Profundo com destaque Verde Limão Neon -->
+              <div class="box-precos-street">
+                <span class="preco-de">
+                  <!-- PIPE BUILT-IN 1: currency:'BRL' (Integrante 4) -->
+                  De: {{ roupa.price | currency:'BRL' }}
+                </span>
 
-                    <div class="linha-pix">
-                      <strong class="valor-pix-neon">
-                        <!--
+                <div class="linha-pix">
+                  <strong class="valor-pix-neon">
+                    <!--
                           • PIPE PERSONALIZADA 2: descontoPix:10 (Integrante 4)
                           • PIPE BUILT-IN 1: currency:'BRL' (Integrante 4)
                         -->
-                        {{ roupa.price | descontoPix:10 | currency:'BRL' }}
-                      </strong>
-                      <!-- DIRETIVA PERSONALIZADA 2: appBadgePromo (Integrante 5) -->
-                      <span appBadgePromo>{{ '10% off pix' | uppercase }}</span>
-                    </div>
-                  </div>
+                    {{ roupa.price | descontoPix:10 | currency:'BRL' }}
+                  </strong>
+                  <!-- DIRETIVA PERSONALIZADA 2: appBadgePromo (Integrante 5) -->
+                  <span appBadgePromo>{{ '10% off pix' | uppercase }}</span>
+                </div>
+              </div>
 
-                  <!-- Botões de Ação -->
-                  <div class="botoes-card">
-                    <!-- Requisito 6 Extra (Integrante 3): envia o :id por rota -->
-                    <ion-button
-                      fill="outline"
-                      color="light"
-                      size="small"
-                      [routerLink]="['/detalhes', roupa.id]"
-                    >
-                      <ion-icon slot="start" name="eye-outline"></ion-icon>
-                      VER PEÇA
-                    </ion-button>
+              <!-- Botões de Ação -->
+              <div class="botoes-card">
+                <!-- Requisito 6 Extra (Integrante 3): envia o :id por rota -->
+                <ion-button fill="outline" color="light" size="small" [routerLink]="['/detalhes', roupa.id]">
+                  <ion-icon slot="start" name="eye-outline"></ion-icon>
+                  VER PEÇA
+                </ion-button>
 
-                    <!-- Requisito 4 (Integrante 3): adiciona ao SacolaService -->
-                    <ion-button
-                      fill="solid"
-                      [color]="ultimoAdicionadoId === roupa.id ? 'success' : 'secondary'"
-                      size="small"
-                      (click)="adicionarNaSacola($event, roupa)"
-                    >
-                      @if (ultimoAdicionadoId === roupa.id) {
-                        <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
-                        NA SACOLA!
-                      } @else {
-                        <ion-icon slot="start" name="bag-handle-outline"></ion-icon>
-                        + SACOLA
-                      }
-                    </ion-button>
-                  </div>
-                </ion-card-content>
-              </ion-card>
-            </ion-col>
-          }
-        </ion-row>
-      </ion-grid>
+                <!-- Requisito 4 (Integrante 3): adiciona ao SacolaService -->
+                <ion-button
+                  fill="solid"
+                  [color]="ultimoAdicionadoId === roupa.id ? 'success' : 'secondary'"
+                  size="small"
+                  (click)="adicionarNaSacola($event, roupa)"
+                >
+                  @if (ultimoAdicionadoId === roupa.id) {
+                  <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+                  NA SACOLA! } @else {
+                  <ion-icon slot="start" name="bag-handle-outline"></ion-icon>
+                  + SACOLA }
+                </ion-button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        }
+      </ion-row>
+    </ion-grid>
     }
   </div>
 </ion-content>

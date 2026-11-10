@@ -5,7 +5,7 @@
  * O QUE FAZ NO PROJETO:
  * É o container principal (`<ion-app>`) onde o `<ion-router-outlet>` renderiza
  * as 4 páginas do projeto conforme a URL ativa. Também registra globalmente os
- * ícones da biblioteca Ionicons para uso nos botões e cabeçalhos das telas.
+ * ícones da biblioteca Ionicons para uso nos botões, carrossel e cabeçalhos.
  * ============================================================================
  */
 
@@ -30,6 +30,9 @@ import {
   cartOutline,
   womanOutline,
   manOutline,
+  chevronBackOutline,
+  chevronForwardOutline,
+  flameOutline,
 } from 'ionicons/icons';
 
 @Component({
@@ -39,7 +42,6 @@ import {
 })
 export class AppComponent {
   constructor() {
-    // Registra os ícones do Ionic (Ionicons) usados nas 4 páginas da loja de roupas
     addIcons({
       shirtOutline,
       bagHandleOutline,
@@ -58,6 +60,9 @@ export class AppComponent {
       cartOutline,
       womanOutline,
       manOutline,
+      chevronBackOutline,
+      chevronForwardOutline,
+      flameOutline,
     });
   }
 }

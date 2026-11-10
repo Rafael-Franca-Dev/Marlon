@@ -40,23 +40,20 @@ export const routes: Routes = [
   // PÁGINA 2 (Requisito 1 - Integrante 1): Catálogo de Roupas da API
   {
     path: 'catalogo',
-    loadComponent: () =>
-      import('./pages/catalogo/catalogo.page').then((m) => m.CatalogoPage),
+    loadComponent: () => import('./pages/catalogo/catalogo.page').then((m) => m.CatalogoPage),
   },
 
   // PÁGINA 3 (Requisito 1 - Integrante 1) + PONTO EXTRA (Requisito 6 - Integrante 3):
   // Recebe o parâmetro `:id` enviado pela página anterior (`/catalogo`)
   {
     path: 'detalhes/:id',
-    loadComponent: () =>
-      import('./pages/detalhes/detalhes.page').then((m) => m.DetalhesPage),
+    loadComponent: () => import('./pages/detalhes/detalhes.page').then((m) => m.DetalhesPage),
   },
 
   // PÁGINA 4 (Requisito 1 - Integrante 1): Sacola de Compras
   {
     path: 'sacola',
-    loadComponent: () =>
-      import('./pages/sacola/sacola.page').then((m) => m.SacolaPage),
+    loadComponent: () => import('./pages/sacola/sacola.page').then((m) => m.SacolaPage),
   },
 
   // Redirecionamento inicial padrão para a página Home

@@ -1,36 +1,37 @@
 /**
  * ============================================================================
- * GUIA DE ESTUDO DO CÓDIGO — PÁGINA 3: DetalhesPage (Detalhes da Peça #ID)
+ * GUIA DE ESTUDO DO CÓDIGO — PÁGINA 3: DetalhesPage (Detalhes da Peça)
  * ARQUIVO: src/app/pages/detalhes/detalhes.page.ts
  * ============================================================================
  * ONDE CADA INTEGRANTE DEVE PROCURAR SEU REQUISITO NESTE ARQUIVO:
  *
  * • INTEGRANTE 3 (Requisito 6 Extra — Parâmetro por Rota & Requisito 4 — SacolaService):
- *   - Linha 96: Injeção do `ActivatedRoute` (`private readonly route = inject(ActivatedRoute)`).
- *   - Linha 126: Captura do parâmetro `:id` enviado pela URL (`this.route.snapshot.paramMap.get('id')`).
- *   - Linha 155: Método `adicionarPecaNaSacola()` que usa o `SacolaService`.
+ *   - Injeção do `ActivatedRoute` (`private readonly route = inject(ActivatedRoute)`).
+ *   - Captura do parâmetro `:id` enviado pela URL (`this.route.snapshot.paramMap.get('id')`).
+ *   - Método `adicionarPecaNaSacola()` que usa o `SacolaService`.
  *
  * • INTEGRANTE 2 (Requisito 2 — 3º Método GET da API & Requisito 4 — RoupasService):
- *   - Linha 101: Injeção do `RoupasService`.
- *   - Linha 135: Método `carregarDetalhesDaRoupa(id)` que executa o 3º método GET
+ *   - Injeção do `RoupasService`.
+ *   - Método `carregarDetalhesDaRoupa(id)` que executa o 3º método GET
  *     da Fake Store API (`this.roupasService.getRoupaPorId(id)`).
  *
  * • INTEGRANTE 1 (Requisito 1 — 4 Páginas e UI/UX):
- *   - Linha 52: Decorator `@Component` da 3ª Página (`DetalhesPage`, standalone: true).
+ *   - Decorator `@Component` da 3ª Página (`DetalhesPage`, standalone: true).
  *
  * • INTEGRANTE 4 (Requisito 3 — 4 Pipes):
- *   - Linhas 58 a 62: Importação das 2 Pipes Built-in (`CurrencyPipe`, `UpperCasePipe`)
+ *   - Importação das 2 Pipes Built-in (`CurrencyPipe`, `UpperCasePipe`)
  *     e das 2 Pipes Personalizadas (`TraduzirCategoriaPipe`, `DescontoPixPipe`).
  *
  * • INTEGRANTE 5 (Requisito 5 — Diretivas Personalizadas e `@if` / `@for`):
- *   - Linhas 64 e 65: Importação de `DestaqueCardDirective` e `BadgePromoDirective`.
- *   - Linha 116: Array `tamanhosDisponiveis = ['P', 'M', 'G', 'GG']` percorrido com `@for`.
+ *   - Importação de `DestaqueCardDirective` e `BadgePromoDirective`.
+ *   - Array `tamanhosDisponiveis = ['P', 'M', 'G', 'GG']` percorrido com `@for`.
  * ============================================================================
  */
 
-import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CurrencyPipe, UpperCasePipe } from '@angular/common';
+import type { OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, inject } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import {
   IonHeader,
   IonToolbar,
@@ -52,12 +53,13 @@ import {
   IonLabel,
 } from '@ionic/angular';
 
-import { RoupasService, ProdutoRoupa } from '../../services/roupas.service';
-import { SacolaService } from '../../services/sacola.service';
-import { TraduzirCategoriaPipe } from '../../pipes/traduzir-categoria.pipe';
-import { DescontoPixPipe } from '../../pipes/desconto-pix.pipe';
-import { DestaqueCardDirective } from '../../directives/destaque-card.directive';
 import { BadgePromoDirective } from '../../directives/badge-promo.directive';
+import { DestaqueCardDirective } from '../../directives/destaque-card.directive';
+import { DescontoPixPipe } from '../../pipes/desconto-pix.pipe';
+import { TraduzirCategoriaPipe } from '../../pipes/traduzir-categoria.pipe';
+import type { ProdutoRoupa } from '../../services/roupas.service';
+import { RoupasService } from '../../services/roupas.service';
+import { SacolaService } from '../../services/sacola.service';
 
 @Component({
   selector: 'app-detalhes',
@@ -109,13 +111,15 @@ export class DetalhesPage implements OnInit {
   public readonly sacolaService = inject(SacolaService);
 
   /**
+   * ChangeDetectorRef atualiza a visualização imediatamente quando os dados da API chegam.
+   */
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  /**
    * Guarda a peça de roupa retornada pelo MÉTODO GET 3 da API.
    */
   public roupaSelecionada: ProdutoRoupa | null = null;
 
-  /**
-   * Guarda o ID recebido na URL para exibir em tela na apresentação.
-   */
   public idRotaRecebido: number = 0;
 
   /**
@@ -129,11 +133,13 @@ export class DetalhesPage implements OnInit {
 
   ngOnInit(): void {
     // PASSO 1 (Integrante 3 - Ponto Extra): Captura o parâmetro `:id` da URL (`/detalhes/:id`)
-    const idParametro = Number(this.route.snapshot.paramMap.get('id'));
-    this.idRotaRecebido = idParametro || 1;
+    this.route.paramMap.subscribe((params) => {
+      const idParametro = Number(params.get('id'));
+      this.idRotaRecebido = idParametro || 2;
 
-    // PASSO 2 (Integrante 2 - Método GET 3): Busca os detalhes desta peça na Fake Store API
-    this.carregarDetalhesDaRoupa(this.idRotaRecebido);
+      // PASSO 2 (Integrante 2 - Método GET 3): Busca os detalhes desta peça na Fake Store API
+      this.carregarDetalhesDaRoupa(this.idRotaRecebido);
+    });
   }
 
   /**
@@ -141,20 +147,26 @@ export class DetalhesPage implements OnInit {
    */
   carregarDetalhesDaRoupa(id: number): void {
     this.carregando = true;
+    this.cdr.detectChanges();
 
     this.roupasService.getRoupaPorId(id).subscribe({
       next: (dadosRoupa) => {
-        this.roupaSelecionada = dadosRoupa;
-        this.carregando = false;
+        setTimeout(() => {
+          this.roupaSelecionada = dadosRoupa;
+          this.carregando = false;
+          this.cdr.detectChanges();
+        }, 450);
       },
       error: () => {
         this.carregando = false;
+        this.cdr.detectChanges();
       },
     });
   }
 
   selecionarTamanho(tamanho: string): void {
     this.tamanhoEscolhido = tamanho;
+    this.cdr.detectChanges();
   }
 
   /**
@@ -167,9 +179,11 @@ export class DetalhesPage implements OnInit {
 
     this.sacolaService.adicionarItem(this.roupaSelecionada);
     this.feedbackAdicionado = true;
+    this.cdr.detectChanges();
 
     setTimeout(() => {
       this.feedbackAdicionado = false;
+      this.cdr.detectChanges();
     }, 1800);
   }
 }

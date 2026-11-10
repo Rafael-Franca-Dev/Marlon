@@ -4,19 +4,18 @@
   ============================================================================
   ONDE CADA INTEGRANTE ENCONTRA SEU REQUISITO NESTE HTML:
   • INTEGRANTE 3 (Requisito 6 Extra — Parâmetro por Rota & Requisito 4 — SacolaService):
-    - Linha 29 e Linha 86: Exibição do parâmetro `idRotaRecebido` capturado da URL `/detalhes/:id`.
-    - Linha 151: Botão `(click)="adicionarPecaNaSacola()"` que aciona o `SacolaService`.
+    - Exibe os detalhes exclusivos da peça correspondente ao `:id` recebido na rota `/detalhes/:id`.
+    - Botão `(click)="adicionarPecaNaSacola()"` que aciona o `SacolaService`.
   • INTEGRANTE 2 (Requisito 2 — 3º Método GET da API):
-    - Linhas 61 a 140: Exibição completa dos dados retornados pelo `getRoupaPorId(id)`.
+    - Exibição completa dos dados retornados pelo `getRoupaPorId(id)`.
   • INTEGRANTE 4 (Requisito 3 — 4 Pipes):
-    - Linha 75: `{{ roupaSelecionada.category | traduzirCategoria | uppercase }}`
-    - Linha 98: `{{ roupaSelecionada.price | currency:'BRL' }}`
-    - Linha 109: `{{ roupaSelecionada.price | descontoPix:10 | currency:'BRL' }}`
+    - `{{ roupaSelecionada.category | traduzirCategoria | uppercase }}`
+    - `{{ roupaSelecionada.price | currency:'BRL' }}`
+    - `{{ roupaSelecionada.price | descontoPix:10 | currency:'BRL' }}`
   • INTEGRANTE 5 (Requisito 5 — 2 Diretivas Personalizadas + `@if` e `@for`):
-    - Linha 52: Bloco `@if (carregando) { ... } @else if (roupaSelecionada) { ... }`
-    - Linha 58: Diretiva Personalizada `appDestaqueCard` no card principal.
-    - Linha 114: Diretiva Personalizada `appBadgePromo` no selo Verde Limão Neon.
-    - Linha 125: Bloco `@for (tam of tamanhosDisponiveis; track tam)` nos tamanhos.
+    - Bloco `@if (carregando)` mostrando a frase "Estamos separando no estoque para visualização..."
+    - Diretivas Personalizadas `appDestaqueCard` e `appBadgePromo`.
+    - Bloco `@for (tam of tamanhosDisponiveis; track tam)` nos tamanhos.
   ============================================================================
 -->
 
@@ -30,7 +29,7 @@
     </ion-buttons>
 
     <ion-title>
-      <span class="titulo-urbano">FICHA DA PEÇA // ROTA #{{ idRotaRecebido }}</span>
+      <span class="titulo-urbano">DETALHES DA PEÇA</span>
     </ion-title>
 
     <ion-buttons slot="end" class="nav-botoes">
@@ -41,11 +40,8 @@
 
       <ion-button routerLink="/sacola" fill="solid" color="secondary" size="small">
         <ion-icon slot="start" name="bag-handle-outline"></ion-icon>
-        Sacola
-        @if (sacolaService.obterQuantidadeTotal() > 0) {
-          <ion-badge color="success" class="badge-topo">
-            {{ sacolaService.obterQuantidadeTotal() }}
-          </ion-badge>
+        Sacola @if (sacolaService.obterQuantidadeTotal() > 0) {
+        <ion-badge color="success" class="badge-topo"> {{ sacolaService.obterQuantidadeTotal() }} </ion-badge>
         }
       </ion-button>
     </ion-buttons>
@@ -56,144 +52,127 @@
   <div class="container-loja">
     <!-- DIRETIVA ESTRUTURAL 1: @if / @else (Integrante 5 - Requisito 5) -->
     @if (carregando) {
-      <div class="estado-central">
-        <ion-spinner name="crescent" color="secondary"></ion-spinner>
-        <p>EXECUTANDO MÉTODO GET 3 DA API (PEÇA #{{ idRotaRecebido }})...</p>
-      </div>
+    <div class="estado-central">
+      <ion-spinner name="crescent" color="secondary"></ion-spinner>
+      <p>Estamos separando no estoque para visualização...</p>
+    </div>
     } @else if (roupaSelecionada) {
-      <!-- DIRETIVA PERSONALIZADA 1: appDestaqueCard (Integrante 5 - Requisito 5) -->
-      <ion-card appDestaqueCard class="card-detalhes-street">
-        <ion-grid>
-          <ion-row class="ion-align-items-center">
-            <!-- Coluna da Imagem em Vitrine Branca com Borda Vermelha -->
-            <ion-col size="12" sizeMd="5">
-              <div class="painel-imagem-street">
-                <span class="selo-rota">PARÂMETRO ROTA :ID = {{ idRotaRecebido }}</span>
-                <img
-                  [src]="roupaSelecionada.image"
-                  [alt]="roupaSelecionada.title"
-                />
-              </div>
-            </ion-col>
+    <!-- DIRETIVA PERSONALIZADA 1: appDestaqueCard (Integrante 5 - Requisito 5) -->
+    <ion-card appDestaqueCard class="card-detalhes-street">
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <!-- Coluna da Imagem em Vitrine Branca com Borda Vermelha -->
+          <ion-col size="12" sizeMd="5">
+            <div class="painel-imagem-street">
+              <span class="selo-rota">REF. #0{{ roupaSelecionada.id }}</span>
+              <img [src]="roupaSelecionada.image" [alt]="roupaSelecionada.title" />
+            </div>
+          </ion-col>
 
-            <!-- Coluna de Informações, Preços, Tamanhos e Botões -->
-            <ion-col size="12" sizeMd="7">
-              <ion-card-header>
-                <div class="topo-chips">
-                  <ion-chip color="secondary">
-                    <ion-icon name="pricetag-outline"></ion-icon>
-                    <ion-label>
-                      <!--
+          <!-- Coluna de Informações, Preços, Tamanhos e Botões -->
+          <ion-col size="12" sizeMd="7">
+            <ion-card-header>
+              <div class="topo-chips">
+                <ion-chip color="secondary">
+                  <ion-icon name="pricetag-outline"></ion-icon>
+                  <ion-label>
+                    <!--
                         • PIPE PERSONALIZADA 1: traduzirCategoria (Integrante 4)
                         • PIPE BUILT-IN 2: uppercase (Integrante 4)
                       -->
-                      {{ roupaSelecionada.category | traduzirCategoria | uppercase }}
-                    </ion-label>
-                  </ion-chip>
+                    {{ roupaSelecionada.category | traduzirCategoria | uppercase }}
+                  </ion-label>
+                </ion-chip>
 
-                  <ion-chip color="warning">
-                    <ion-icon name="star"></ion-icon>
-                    <ion-label>
-                      {{ roupaSelecionada.rating.rate }} ({{ roupaSelecionada.rating.count }} avaliações)
-                    </ion-label>
-                  </ion-chip>
+                <ion-chip color="warning">
+                  <ion-icon name="star"></ion-icon>
+                  <ion-label>
+                    {{ roupaSelecionada.rating.rate }} ({{ roupaSelecionada.rating.count }} avaliações)
+                  </ion-label>
+                </ion-chip>
+              </div>
+
+              <ion-card-title class="titulo-peca-street"> {{ roupaSelecionada.title }} </ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <!-- Quadro de Preços em Preto Profundo + Verde Limão Neon -->
+              <div class="quadro-precos-street">
+                <div class="preco-tabela">
+                  <span>Valor normal:</span>
+                  <!-- PIPE BUILT-IN 1: currency:'BRL' (Integrante 4) -->
+                  <strong>{{ roupaSelecionada.price | currency:'BRL' }}</strong>
                 </div>
 
-                <ion-card-title class="titulo-peca-street">
-                  {{ roupaSelecionada.title }}
-                </ion-card-title>
-              </ion-card-header>
-
-              <ion-card-content>
-                <!-- Quadro de Preços em Preto Profundo + Verde Limão Neon -->
-                <div class="quadro-precos-street">
-                  <div class="preco-tabela">
-                    <span>Valor de tabela:</span>
-                    <!-- PIPE BUILT-IN 1: currency:'BRL' (Integrante 4) -->
-                    <strong>{{ roupaSelecionada.price | currency:'BRL' }}</strong>
-                  </div>
-
-                  <div class="preco-promocional">
-                    <div>
-                      <span class="legenda-pix">PREÇO EXCLUSIVO NO PIX (PIPE DESCONTO):</span>
-                      <div class="valor-destaque-neon">
-                        <!--
+                <div class="preco-promocional">
+                  <div>
+                    <span class="legenda-pix">VALOR ESPECIAL À VISTA NO PIX:</span>
+                    <div class="valor-destaque-neon">
+                      <!--
                           • PIPE PERSONALIZADA 2: descontoPix:10 (Integrante 4)
                           • PIPE BUILT-IN 1: currency:'BRL' (Integrante 4)
                         -->
-                        {{ roupaSelecionada.price | descontoPix:10 | currency:'BRL' }}
-                      </div>
+                      {{ roupaSelecionada.price | descontoPix:10 | currency:'BRL' }}
                     </div>
-
-                    <!-- DIRETIVA PERSONALIZADA 2: appBadgePromo (Integrante 5) -->
-                    <span appBadgePromo>
-                      {{ 'Economize 10% no PIX' | uppercase }}
-                    </span>
                   </div>
-                </div>
 
-                <!-- Seleção de Tamanho usando a Diretiva Estrutural @for (Integrante 5) -->
-                <div class="secao-tamanhos">
-                  <p class="rotulo-secao">SELECIONE O TAMANHO:</p>
-                  <div class="lista-tamanhos">
-                    @for (tam of tamanhosDisponiveis; track tam) {
-                      <ion-button
-                        [fill]="tamanhoEscolhido === tam ? 'solid' : 'outline'"
-                        [color]="tamanhoEscolhido === tam ? 'secondary' : 'light'"
-                        size="small"
-                        (click)="selecionarTamanho(tam)"
-                      >
-                        {{ tam }}
-                      </ion-button>
-                    }
-                  </div>
+                  <!-- DIRETIVA PERSONALIZADA 2: appBadgePromo (Integrante 5) -->
+                  <span appBadgePromo> {{ 'Economize 10% no PIX' | uppercase }} </span>
                 </div>
+              </div>
 
-                <!-- Descrição completa vinda do 3º método GET da API -->
-                <div class="secao-descricao">
-                  <p class="rotulo-secao">ESPECIFICAÇÕES DA PEÇA (FAKE STORE API - GET 3):</p>
-                  <p class="texto-descricao">{{ roupaSelecionada.description }}</p>
-                </div>
-
-                <!-- Botões de Compra (Integrante 3 - SacolaService) -->
-                <div class="botoes-compra">
+              <!-- Seleção de Tamanho usando a Diretiva Estrutural @for (Integrante 5) -->
+              <div class="secao-tamanhos">
+                <p class="rotulo-secao">ESCOLHA O TAMANHO:</p>
+                <div class="lista-tamanhos">
+                  @for (tam of tamanhosDisponiveis; track tam) {
                   <ion-button
-                    expand="block"
-                    size="large"
-                    [color]="feedbackAdicionado ? 'success' : 'secondary'"
-                    (click)="adicionarPecaNaSacola()"
+                    [fill]="tamanhoEscolhido === tam ? 'solid' : 'outline'"
+                    [color]="tamanhoEscolhido === tam ? 'secondary' : 'light'"
+                    size="small"
+                    (click)="selecionarTamanho(tam)"
                   >
-                    @if (feedbackAdicionado) {
-                      <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
-                      PEÇA ADICIONADA À SACOLA!
-                    } @else {
-                      <ion-icon slot="start" name="bag-handle-outline"></ion-icon>
-                      ADICIONAR À SACOLA (TAM. {{ tamanhoEscolhido }})
-                    }
+                    {{ tam }}
                   </ion-button>
-
-                  <ion-button
-                    expand="block"
-                    size="large"
-                    fill="outline"
-                    color="light"
-                    routerLink="/sacola"
-                  >
-                    VER SACOLA DE COMPRAS ({{ sacolaService.obterQuantidadeTotal() }})
-                  </ion-button>
+                  }
                 </div>
-              </ion-card-content>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card>
+              </div>
+
+              <!-- Descrição completa da peça -->
+              <div class="secao-descricao">
+                <p class="rotulo-secao">DETALHES E MODELAGEM:</p>
+                <p class="texto-descricao">{{ roupaSelecionada.description }}</p>
+              </div>
+
+              <!-- Botões de Compra (Integrante 3 - SacolaService) -->
+              <div class="botoes-compra">
+                <ion-button
+                  expand="block"
+                  size="large"
+                  [color]="feedbackAdicionado ? 'success' : 'secondary'"
+                  (click)="adicionarPecaNaSacola()"
+                >
+                  @if (feedbackAdicionado) {
+                  <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+                  PEÇA ADICIONADA À SACOLA! } @else {
+                  <ion-icon slot="start" name="bag-handle-outline"></ion-icon>
+                  ADICIONAR À SACOLA (TAM. {{ tamanhoEscolhido }}) }
+                </ion-button>
+
+                <ion-button expand="block" size="large" fill="outline" color="light" routerLink="/sacola">
+                  VER SACOLA DE COMPRAS ({{ sacolaService.obterQuantidadeTotal() }})
+                </ion-button>
+              </div>
+            </ion-card-content>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
     } @else {
-      <div class="estado-central">
-        <p>Peça de roupa não encontrada.</p>
-        <ion-button routerLink="/catalogo" color="secondary">
-          Voltar para o Catálogo
-        </ion-button>
-      </div>
+    <div class="estado-central">
+      <p>Peça de roupa não encontrada.</p>
+      <ion-button routerLink="/catalogo" color="secondary"> Voltar para o Catálogo </ion-button>
+    </div>
     }
   </div>
 </ion-content>

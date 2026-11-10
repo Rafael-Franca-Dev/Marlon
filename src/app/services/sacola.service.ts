@@ -40,7 +40,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ProdutoRoupa } from './roupas.service';
+
+import type { ProdutoRoupa } from './roupas.service';
 
 /**
  * Interface que representa um item dentro da sacola de compras.
@@ -92,7 +93,8 @@ export class SacolaService {
       responsabilidade:
         'Configuração do provideHttpClient() e criação do 1º Service (RoupasService) consumindo a Fake Store API com 3 métodos GET distintos.',
       arquivosCodigo: 'src/app/services/roupas.service.ts e src/main.ts',
-      ondeVerNaTela: 'Abas Masculino (GET 1) e Feminino (GET 2) no Catálogo, e carregamento por ID (GET 3) em Detalhes.',
+      ondeVerNaTela:
+        'Abas Masculino (GET 1) e Feminino (GET 2) no Catálogo, e carregamento por ID (GET 3) em Detalhes.',
     },
     {
       numero: 3,
@@ -119,7 +121,8 @@ export class SacolaService {
       responsabilidade:
         'Criação das 2 Diretivas Personalizadas (appDestaqueCard e appBadgePromo) com @HostBinding/@HostListener e uso dos blocos estruturais @if e @for.',
       arquivosCodigo: 'src/app/directives/destaque-card.directive.ts, badge-promo.directive.ts e templates .html',
-      ondeVerNaTela: 'Efeito neon vermelho ao passar nos cards, etiqueta verde limão PIX, loading @if e listagens @for.',
+      ondeVerNaTela:
+        'Efeito neon vermelho ao passar nos cards, etiqueta verde limão PIX, loading @if e listagens @for.',
     },
   ];
 
@@ -168,9 +171,6 @@ export class SacolaService {
   }
 
   calcularValorTotal(): number {
-    return this.itens.reduce(
-      (acumulador, item) => acumulador + item.produto.price * item.quantidade,
-      0
-    );
+    return this.itens.reduce((acumulador, item) => acumulador + item.produto.price * item.quantidade, 0);
   }
 }

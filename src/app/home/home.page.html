@@ -4,19 +4,17 @@
   ============================================================================
   ONDE ENCONTRAR CADA REQUISITO NESTE ARQUIVO:
   • INTEGRANTE 1 (Requisito 1 - 4 Páginas e UI/UX):
-    - Linhas 19 a 52: Barra superior `<ion-header>` com navegação para `/home`,
-      `/catalogo` e `/sacola`, estilizada em Preto Profundo e Vermelho Saturado.
-    - Linhas 59 a 92: Hero Banner Streetwear "MENINO MAU".
+    - Barra superior `<ion-header>`, seção "Produtos em Destaque da Semana"
+      ("T-SHIRT Menino Malino" e "Calça Agredindo a Moda"), seção "Escolha sua Linha"
+      e o Carrossel Lookbook mudando as roupas em destaque sem exibir preços.
+  • INTEGRANTE 3 (Requisito 6 Extra - Parâmetro por Rota):
+    - `[routerLink]="['/detalhes', destaque.id]"` permitindo abrir os detalhes da peça.
   • INTEGRANTE 4 (Requisito 3 - Pipes):
-    - Linha 65: Uso da Pipe Built-in `uppercase`.
-    - Linhas 123 e 127: Uso da Pipe Personalizada `traduzirCategoria` encadeada
-      com a Pipe Built-in `uppercase`.
+    - Uso da Pipe Personalizada `traduzirCategoria` e da Pipe Built-in `uppercase`.
   • INTEGRANTE 5 (Requisito 5 - Diretivas Personalizadas e `@if` / `@for`):
-    - Linha 44: Diretiva Estrutural `@if` para mostrar o badge da sacola.
-    - Linha 64: Diretiva Personalizada `appBadgePromo` (etiqueta Verde Limão Neon).
-    - Linha 106 e 157: Diretiva Estrutural `@for` (sem usar *ngFor) para listar
-      os departamentos e os 5 integrantes da equipe.
-    - Linha 110 e 159: Diretiva Personalizada `appDestaqueCard` (efeito hover vermelho).
+    - Diretiva Estrutural `@if` no badge da sacola.
+    - Diretiva Estrutural `@for` nos Destaques da Semana, nas Linhas e nos indicadores do Carrossel.
+    - Diretivas Personalizadas `appDestaqueCard` e `appBadgePromo`.
   ============================================================================
 -->
 
@@ -51,9 +49,7 @@
         Sacola
         <!-- DIRETIVA ESTRUTURAL @if (Integrante 5 - Requisito 5) -->
         @if (sacolaService.obterQuantidadeTotal() > 0) {
-          <ion-badge color="success" class="badge-topo">
-            {{ sacolaService.obterQuantidadeTotal() }}
-          </ion-badge>
+        <ion-badge color="success" class="badge-topo"> {{ sacolaService.obterQuantidadeTotal() }} </ion-badge>
         }
       </ion-button>
     </ion-buttons>
@@ -63,179 +59,182 @@
 <ion-content [fullscreen]="true">
   <div class="container-loja">
     <!-- ================================================================== -->
-    <!-- HERO BANNER STREETWEAR (Preto Profundo, Cinza Chumbo e Vermelho)   -->
+    <!-- 1. HERO + PRODUTOS EM DESTAQUE DA SEMANA                           -->
     <!-- ================================================================== -->
     <section class="hero-streetwear">
-      <div class="hero-grid">
-        <div class="hero-texto">
+      <div class="hero-cabecalho">
+        <div>
           <!--
             DIRETIVA PERSONALIZADA 2: appBadgePromo (Integrante 5 - Requisito 5)
             PIPE BUILT-IN: uppercase (Integrante 4 - Requisito 3)
           -->
-          <span appBadgePromo>
-            {{ 'Drop Urbano // 10% OFF no PIX em toda a loja' | uppercase }}
-          </span>
+          <span appBadgePromo> {{ 'Lançamentos Exclusivos // 10% OFF no PIX' | uppercase }} </span>
 
-          <h1 class="titulo-urbano">
-            ATITUDE URBANA.<br />
-            <span class="destaque-vermelho">ESTILO SEM LIMITES.</span>
-          </h1>
-
+          <h1 class="titulo-urbano">PRODUTOS EM DESTAQUE <span class="destaque-vermelho">DA SEMANA</span></h1>
           <p class="descricao-hero">
-            Catálogo oficial conectado em tempo real à <strong>Fake Store API</strong>.
-            Explore nossas linhas masculinas e femininas com estética urbana, contraste
-            de alto impacto e desconto automático via PIX.
+            As peças mais procuradas da nossa linha urbana. Estilo forte, tecido pesado e personalidade para quem dita a
+            própria regra nas ruas.
           </p>
-
-          <div class="hero-botoes">
-            <ion-button
-              routerLink="/catalogo"
-              color="secondary"
-              size="large"
-              class="btn-acao-vermelho"
-            >
-              <ion-icon slot="start" name="shirt-outline"></ion-icon>
-              ACESSAR CATÁLOGO COMPLETO
-            </ion-button>
-
-            <ion-button
-              routerLink="/sacola"
-              fill="outline"
-              color="light"
-              size="large"
-              class="btn-acao-borda"
-            >
-              <ion-icon slot="start" name="bag-handle-outline"></ion-icon>
-              MINHA SACOLA ({{ sacolaService.obterQuantidadeTotal() }})
-            </ion-button>
-          </div>
         </div>
 
-        <div class="hero-stats">
-          <div class="stat-box">
-            <span class="stat-numero">4</span>
-            <span class="stat-legenda">Páginas Ionic</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-numero verde-limao">3 GETs</span>
-            <span class="stat-legenda">Fake Store API</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-numero">4 Pipes</span>
-            <span class="stat-legenda">2 Custom + 2 Nat.</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-numero vermelho-neon">2 Services</span>
-            <span class="stat-legenda">HTTP + Sacola</span>
-          </div>
-        </div>
+        <ion-button routerLink="/catalogo" color="secondary" size="large">
+          <ion-icon slot="start" name="shirt-outline"></ion-icon>
+          VER CATÁLOGO COMPLETO
+        </ion-button>
       </div>
+
+      <!-- Grade dos 2 Produtos em Destaque da Semana (T-SHIRT Menino Malino & Calça Agredindo a Moda) -->
+      <ion-grid class="grid-destaques-semana">
+        <ion-row>
+          <!-- DIRETIVA ESTRUTURAL @for (Integrante 5 - Requisito 5) -->
+          @for (peca of destaquesDaSemana; track peca.id) {
+          <ion-col size="12" sizeMd="6">
+            <!-- DIRETIVA PERSONALIZADA 1: appDestaqueCard (Integrante 5 - Requisito 5) -->
+            <ion-card appDestaqueCard [routerLink]="['/detalhes', peca.id]" class="card-destaque-semana">
+              <div class="layout-destaque">
+                <div class="foto-destaque">
+                  <img [src]="peca.imagem" [alt]="peca.nome" />
+                </div>
+
+                <div class="info-destaque">
+                  <span class="selo-quente">
+                    <ion-icon name="flame-outline"></ion-icon>
+                    {{ peca.selo }}
+                  </span>
+
+                  <h3 class="titulo-urbano">{{ peca.nome }}</h3>
+                  <span class="subtitulo-peca">{{ peca.subtitulo }}</span>
+                  <p>{{ peca.descricaoCurta }}</p>
+
+                  <div class="link-ver-peca">
+                    <span>CONFERIR PEÇA</span>
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                  </div>
+                </div>
+              </div>
+            </ion-card>
+          </ion-col>
+          }
+        </ion-row>
+      </ion-grid>
     </section>
 
     <!-- ================================================================== -->
-    <!-- SEÇÃO DE DEPARTAMENTOS (USA @for, PIPES E DIRETIVAS)               -->
+    <!-- 2. ESCOLHA SUA LINHA (MODA MASCULINA OU MODA FEMININA)             -->
     <!-- ================================================================== -->
     <div class="secao-titulo">
       <div>
-        <span class="tag-secao">COLEÇÕES OFICIAIS</span>
+        <span class="tag-secao">PÚBLICO-ALVO</span>
         <h2 class="titulo-urbano">ESCOLHA SUA LINHA</h2>
       </div>
-      <p>Clique em uma linha para abrir o catálogo consumindo a API</p>
+      <p>Selecione entre Moda Masculina ou Moda Feminina para explorar nossas peças</p>
     </div>
 
     <ion-grid>
       <ion-row>
         <!-- DIRETIVA ESTRUTURAL @for (Integrante 5 - Requisito 5) -->
         @for (cat of categoriasVitrine; track cat.chaveApi) {
-          <ion-col size="12" sizeMd="6">
-            <!-- DIRETIVA PERSONALIZADA 1: appDestaqueCard (Integrante 5 - Requisito 5) -->
-            <ion-card appDestaqueCard routerLink="/catalogo" class="card-colecao">
-              <ion-card-header>
-                <div class="colecao-topo">
-                  <div class="icone-box">
-                    <ion-icon [name]="cat.icone"></ion-icon>
-                  </div>
-                  <ion-chip color="secondary" class="chip-drop">
-                    <ion-label>{{ cat.destaque }}</ion-label>
-                  </ion-chip>
+        <ion-col size="12" sizeMd="6">
+          <!-- DIRETIVA PERSONALIZADA 1: appDestaqueCard (Integrante 5 - Requisito 5) -->
+          <ion-card appDestaqueCard routerLink="/catalogo" [queryParams]="{ linha: cat.filtro }" class="card-colecao">
+            <ion-card-header>
+              <div class="colecao-topo">
+                <div class="icone-box">
+                  <ion-icon [name]="cat.icone"></ion-icon>
                 </div>
+                <ion-chip color="secondary" class="chip-drop">
+                  <ion-label>{{ cat.destaque }}</ion-label>
+                </ion-chip>
+              </div>
 
-                <ion-card-subtitle class="subtitulo-colecao">
-                  <!--
+              <ion-card-subtitle class="subtitulo-colecao">
+                <!--
                     PIPE PERSONALIZADA 1: traduzirCategoria (Integrante 4 - Requisito 3)
                     PIPE BUILT-IN: uppercase (Integrante 4 - Requisito 3)
                   -->
-                  {{ cat.chaveApi | traduzirCategoria | uppercase }}
-                </ion-card-subtitle>
+                {{ cat.chaveApi | traduzirCategoria | uppercase }}
+              </ion-card-subtitle>
 
-                <ion-card-title class="titulo-colecao">
-                  {{ cat.chaveApi | traduzirCategoria }}
-                </ion-card-title>
-              </ion-card-header>
+              <ion-card-title class="titulo-colecao"> {{ cat.chaveApi | traduzirCategoria }} </ion-card-title>
+            </ion-card-header>
 
-              <ion-card-content>
-                <p class="texto-colecao">{{ cat.descricao }}</p>
-                <div class="cta-colecao">
-                  <span>EXPLORAR PEÇAS AGORA</span>
-                  <ion-icon name="eye-outline"></ion-icon>
-                </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
+            <ion-card-content>
+              <p class="texto-colecao">{{ cat.descricao }}</p>
+              <div class="cta-colecao">
+                <span>EXPLORAR {{ cat.chaveApi | traduzirCategoria | uppercase }}</span>
+                <ion-icon name="eye-outline"></ion-icon>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
         }
       </ion-row>
     </ion-grid>
 
     <!-- ================================================================== -->
-    <!-- SEÇÃO DOS 5 INTEGRANTES E DIVISÃO DE REQUISITOS PARA APRESENTAÇÃO  -->
+    <!-- 3. CARROSSEL DE ROUPAS EM DESTAQUE (SEM PREÇO, MUDANDO AS ROUPAS)  -->
     <!-- ================================================================== -->
     <div class="secao-titulo">
       <div>
-        <span class="tag-secao">ORGANIZAÇÃO DA APRESENTAÇÃO</span>
-        <h2 class="titulo-urbano">
-          <ion-icon name="people-outline"></ion-icon>
-          DIVISÃO DOS 5 INTEGRANTES
-        </h2>
+        <span class="tag-secao">VITRINE EM MOVIMENTO</span>
+        <h2 class="titulo-urbano">PEÇAS EM DESTAQUE</h2>
       </div>
-      <p>Mapa rápido: o que cada integrante faz, onde está no código e onde ver em tela</p>
+      <p>Navegue pelo carrossel para conhecer os visuais da temporada</p>
     </div>
 
-    <ion-grid>
-      <ion-row>
-        <!-- DIRETIVA ESTRUTURAL @for (Integrante 5 - Requisito 5) -->
-        @for (membro of equipe; track membro.numero) {
-          <ion-col size="12" sizeMd="6" sizeLg="4">
-            <ion-card appDestaqueCard class="card-membro">
-              <ion-card-header>
-                <div class="membro-topo">
-                  <span class="badge-numero">#0{{ membro.numero }}</span>
-                  <span appBadgePromo>{{ membro.nome | uppercase }}</span>
-                </div>
-                <ion-card-title class="titulo-membro">
-                  {{ membro.requisitoTitulo }}
-                </ion-card-title>
-              </ion-card-header>
+    <ion-card appDestaqueCard class="carrossel-container">
+      <div class="carrossel-grid">
+        <!-- Botão Anterior -->
+        <button type="button" class="btn-seta Esquerda" (click)="slideAnterior()" aria-label="Roupa anterior">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+        </button>
 
-              <ion-card-content>
-                <div class="bloco-pergunta">
-                  <span class="rotulo-pergunta">1. O QUE FAZ NO PROJETO:</span>
-                  <p>{{ membro.responsabilidade }}</p>
-                </div>
+        <!-- Moldura da Imagem da Roupa Atual -->
+        <div class="carrossel-vitrine-foto" [routerLink]="['/detalhes', roupaAtualCarrossel.id]">
+          <img [src]="roupaAtualCarrossel.imagem" [alt]="roupaAtualCarrossel.nome" />
+        </div>
 
-                <div class="bloco-pergunta">
-                  <span class="rotulo-pergunta">2. ONDE BUSCAR NO CÓDIGO:</span>
-                  <code>{{ membro.arquivosCodigo }}</code>
-                </div>
+        <!-- Informações da Roupa em Destaque no Carrossel (SEM PREÇO) -->
+        <div class="carrossel-info">
+          <div class="carrossel-badges">
+            <span appBadgePromo>{{ roupaAtualCarrossel.selo }}</span>
+            <span class="tag-categoria-carrossel">
+              {{ roupaAtualCarrossel.categoriaApi | traduzirCategoria | uppercase }}
+            </span>
+          </div>
 
-                <div class="bloco-pergunta">
-                  <span class="rotulo-pergunta">3. ONDE VER EM TELA:</span>
-                  <p>{{ membro.ondeVerNaTela }}</p>
-                </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-        }
-      </ion-row>
-    </ion-grid>
+          <h3 class="titulo-urbano nome-peca-carrossel">{{ roupaAtualCarrossel.nome }}</h3>
+
+          <span class="subtitulo-carrossel"> {{ roupaAtualCarrossel.subtitulo }} </span>
+
+          <p class="descricao-carrossel">{{ roupaAtualCarrossel.descricaoCurta }}</p>
+
+          <div class="carrossel-acoes">
+            <ion-button color="secondary" [routerLink]="['/detalhes', roupaAtualCarrossel.id]">
+              <ion-icon slot="start" name="eye-outline"></ion-icon>
+              VISUALIZAR DETALHES DA PEÇA
+            </ion-button>
+          </div>
+
+          <!-- Indicadores (Bolinhas) do Carrossel usando @for -->
+          <div class="carrossel-indicadores">
+            @for (item of roupasCarrossel; track item.id; let i = $index) {
+            <button
+              type="button"
+              class="bolinha-indicador"
+              [class.ativa]="i === indiceCarrossel"
+              (click)="irParaSlide(i)"
+              [attr.aria-label]="'Ir para roupa ' + (i + 1)"
+            ></button>
+            }
+          </div>
+        </div>
+
+        <!-- Botão Próximo -->
+        <button type="button" class="btn-seta Direita" (click)="proximoSlide()" aria-label="Próxima roupa">
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </button>
+      </div>
+    </ion-card>
   </div>
 </ion-content>

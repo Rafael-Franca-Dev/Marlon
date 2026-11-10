@@ -23,9 +23,9 @@
  * ============================================================================
  */
 
+import { CurrencyPipe, UpperCasePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CurrencyPipe, UpperCasePipe } from '@angular/common';
 import {
   IonHeader,
   IonToolbar,
@@ -45,12 +45,12 @@ import {
   IonCol,
 } from '@ionic/angular';
 
-import { SacolaService } from '../../services/sacola.service';
-import { ProdutoRoupa } from '../../services/roupas.service';
-import { TraduzirCategoriaPipe } from '../../pipes/traduzir-categoria.pipe';
-import { DescontoPixPipe } from '../../pipes/desconto-pix.pipe';
-import { DestaqueCardDirective } from '../../directives/destaque-card.directive';
 import { BadgePromoDirective } from '../../directives/badge-promo.directive';
+import { DestaqueCardDirective } from '../../directives/destaque-card.directive';
+import { DescontoPixPipe } from '../../pipes/desconto-pix.pipe';
+import { TraduzirCategoriaPipe } from '../../pipes/traduzir-categoria.pipe';
+import type { ProdutoRoupa } from '../../services/roupas.service';
+import { SacolaService } from '../../services/sacola.service';
 
 @Component({
   selector: 'app-sacola',
