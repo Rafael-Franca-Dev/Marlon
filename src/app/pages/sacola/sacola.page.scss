@@ -1,0 +1,246 @@
+/**
+ * ============================================================================
+ * MAPA DO ARQUIVO: src/app/pages/sacola/sacola.page.scss
+ * Estilização Streetwear para a Sacola de Compras.
+ * ============================================================================
+ */
+
+.logo-marca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .icone-marca {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #ff2a2a;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+  }
+
+  .texto-marca {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+
+    .nome-principal {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+    }
+
+    .subtitulo-marca {
+      font-size: 0.62rem;
+      letter-spacing: 1.8px;
+      color: #a1a1aa;
+      font-weight: 600;
+    }
+  }
+}
+
+.badge-topo {
+  margin-left: 6px;
+  border-radius: 6px;
+  padding: 3px 7px;
+  font-weight: 800;
+}
+
+.card-estado-sacola {
+  text-align: center;
+  padding: 56px 24px;
+  margin-top: 24px;
+  background: #18181b;
+
+  .icone-destaque {
+    font-size: 4.5rem;
+    color: #ff2a2a;
+    margin-bottom: 14px;
+
+    &.verde {
+      color: #a3e635;
+    }
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #d4d4d8;
+    max-width: 480px;
+    margin: 0 auto 26px;
+    line-height: 1.55;
+
+    code {
+      background: #09090b;
+      color: #a3e635;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+  }
+
+  ion-button {
+    font-weight: 800;
+    letter-spacing: 0.6px;
+  }
+}
+
+.cabecalho-sacola {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 10px 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #27272a;
+
+  h2 {
+    margin: 0;
+    font-size: 1.45rem;
+    color: #ffffff;
+  }
+}
+
+.card-item-street {
+  margin-bottom: 14px;
+  background: #18181b;
+
+  .linha-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .miniatura-street {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    background: #ffffff;
+    border: 2px solid #ff2a2a;
+    border-radius: 12px;
+    padding: 8px;
+    cursor: pointer;
+  }
+
+  .info-item {
+    flex: 1;
+    min-width: 200px;
+
+    .categoria-item {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #ff2a2a;
+    }
+
+    h3 {
+      margin: 4px 0 8px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    .precos-item {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+      color: #d4d4d8;
+
+      .pix-item strong {
+        color: #a3e635;
+      }
+    }
+  }
+
+  .controles-qtd {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+
+    .botoes-qtd {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .numero-qtd {
+        font-weight: 800;
+        font-size: 1.1rem;
+        color: #ffffff;
+        min-width: 26px;
+        text-align: center;
+      }
+    }
+
+    .subtotal-item {
+      font-size: 0.9rem;
+      color: #ffffff;
+    }
+  }
+}
+
+.card-resumo-street {
+  position: sticky;
+  top: 16px;
+  background: #18181b;
+
+  .sub-resumo {
+    color: #ff2a2a;
+    font-weight: 800;
+    letter-spacing: 1px;
+  }
+
+  .linha-resumo {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: #d4d4d8;
+
+    strong {
+      color: #ffffff;
+    }
+  }
+
+  .caixa-pix-neon {
+    background: #09090b;
+    border: 1px solid #27272a;
+    border-left: 4px solid #a3e635;
+    border-radius: 14px;
+    padding: 16px;
+    margin: 16px 0 22px;
+
+    .topo-pix-resumo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #e4e4e7;
+    }
+
+    .valor-final-pix {
+      font-family: 'Oswald', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #a3e635;
+    }
+  }
+
+  ion-button {
+    margin-top: 10px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+  }
+}

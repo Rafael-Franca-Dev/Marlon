@@ -1,0 +1,247 @@
+/**
+ * ============================================================================
+ * MAPA DO ARQUIVO: src/app/pages/catalogo/catalogo.page.scss
+ * Estilização Streetwear para os cards de roupas (Preto Profundo, Cinza Chumbo,
+ * vitrine Branca para destacar a roupa, Vermelho Saturado e Verde Limão Neon).
+ * ============================================================================
+ */
+
+.logo-marca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .icone-marca {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #ff2a2a;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+  }
+
+  .texto-marca {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+
+    .nome-principal {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+    }
+
+    .subtitulo-marca {
+      font-size: 0.62rem;
+      letter-spacing: 1.8px;
+      color: #a1a1aa;
+      font-weight: 600;
+    }
+  }
+}
+
+.badge-topo {
+  margin-left: 6px;
+  border-radius: 6px;
+  padding: 3px 7px;
+  font-weight: 800;
+}
+
+.painel-topo-catalogo {
+  background: linear-gradient(145deg, #18181b 0%, #101014 100%);
+  border: 1px solid #27272a;
+  border-left: 4px solid #ff2a2a;
+  border-radius: 18px;
+  padding: 26px 24px;
+  margin: 8px 6px 24px;
+
+  .tag-api {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #a3e635;
+    margin-bottom: 4px;
+  }
+
+  h1 {
+    margin: 0 0 8px;
+    font-size: 1.85rem;
+    color: #ffffff;
+  }
+
+  p {
+    margin: 0 0 20px;
+    color: #d4d4d8;
+    font-size: 0.94rem;
+    line-height: 1.5;
+
+    code {
+      background: #09090b;
+      color: #ff2a2a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+  }
+
+  .segmento-street {
+    max-width: 560px;
+    --background: #09090b;
+    border: 1px solid #27272a;
+    border-radius: 12px;
+    padding: 4px;
+
+    ion-segment-button {
+      --color: #a1a1aa;
+      --color-checked: #ffffff;
+      --indicator-color: #ff2a2a;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+    }
+  }
+}
+
+.estado-loading {
+  text-align: center;
+  padding: 70px 20px;
+  background: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 18px;
+  margin: 12px 6px;
+
+  ion-spinner {
+    width: 52px;
+    height: 52px;
+    margin-bottom: 14px;
+  }
+
+  p {
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 0;
+  }
+}
+
+.card-produto-street {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #18181b;
+
+  /* Fundo Branco Puro na vitrine da foto para destacar nitidamente a peça de roupa */
+  .vitrine-imagem {
+    position: relative;
+    height: 240px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+    border-bottom: 3px solid #ff2a2a;
+
+    img {
+      max-height: 195px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .tag-id {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #09090b;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 9px;
+      border-radius: 6px;
+      letter-spacing: 0.8px;
+    }
+
+    .chip-nota {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      font-weight: 800;
+      background: #09090b;
+      color: #facc15;
+    }
+  }
+
+  .categoria-produto {
+    color: #ff2a2a;
+    font-weight: 800;
+    letter-spacing: 1px;
+    font-size: 0.74rem;
+  }
+
+  .nome-produto {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.7em;
+  }
+
+  .corpo-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .box-precos-street {
+    background: #09090b;
+    border: 1px solid #27272a;
+    padding: 12px 14px;
+    border-radius: 12px;
+
+    .preco-de {
+      display: block;
+      font-size: 0.8rem;
+      color: #a1a1aa;
+      text-decoration: line-through;
+      margin-bottom: 4px;
+    }
+
+    .linha-pix {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .valor-pix-neon {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #a3e635;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .botoes-card {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+
+    ion-button {
+      flex: 1;
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+  }
+}

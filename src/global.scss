@@ -1,0 +1,80 @@
+/**
+ * ============================================================================
+ * MAPA DO ARQUIVO: src/global.scss (Estilos Globais e UI/UX Streetwear)
+ * ============================================================================
+ * • INTEGRANTE DE REFERÊNCIA: Integrante 1 (Estrutura das 4 Páginas e UI/UX)
+ * • O QUE ESTE ARQUIVO FAZ:
+ *   Importa as folhas de estilo essenciais do Ionic Framework e define o design
+ *   global "Menino Mau" (Preto Profundo #09090b, Cinza Chumbo #18181b, Branco #ffffff
+ *   e destaques vibrantes em Vermelho Saturado #ff2a2a e Verde Limão #a3e635).
+ * ============================================================================
+ */
+
+/* CSS principal obrigatório para os componentes do Ionic funcionarem */
+@import "@ionic/angular/css/core.css";
+
+/* CSS básico para normalização e tipografia do Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Utilitários opcionais do Ionic */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+body {
+  background-color: #09090b;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Container centralizado para excelente experiência (UX) no mobile e desktop */
+.container-loja {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 20px 16px 48px;
+}
+
+/* Barra de navegação superior padronizada entre as 4 páginas */
+.nav-botoes {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  ion-button {
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+  }
+}
+
+/* Cabeçalho com linha de destaque vibrante em vermelho saturado */
+ion-header ion-toolbar {
+  --background: #0d0d11;
+  --color: #ffffff;
+  border-bottom: 1px solid #27272a;
+}
+
+/* Cards em Cinza Chumbo com acabamento urbano */
+ion-card {
+  --background: #18181b;
+  --color: #ffffff;
+  background: #18181b;
+  color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #27272a;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  margin: 10px 6px;
+}
+
+/* Títulos fortes estilo marca urbana */
+.titulo-urbano {
+  font-family: 'Oswald', 'Inter', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}

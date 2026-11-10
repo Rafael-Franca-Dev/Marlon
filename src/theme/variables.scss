@@ -1,0 +1,95 @@
+/**
+ * ============================================================================
+ * MAPA DO ARQUIVO: src/theme/variables.scss (Paleta de Cores Streetwear)
+ * ============================================================================
+ * • INTEGRANTE DE REFERÊNCIA: Integrante 1 (Estilização e Identidade Visual)
+ * • REQUISITO DO PDF: "CSS não será avaliado como pontuação ou parte de alunos,
+ *   mas é obrigatório entregar um site estilizado."
+ * • PALETA APLICADA (ESTILO "MENINO MAU" / URBAN STREETWEAR):
+ *   1. Preto Profundo (#09090b): Fundo principal da aplicação (`--ion-background-color`).
+ *   2. Cinza Chumbo (#18181b e #27272a): Cards de produtos, barras e superfícies.
+ *   3. Branco Puro (#ffffff): Títulos, textos de alto contraste e destaques.
+ *   4. Vermelho Saturado Vibrante (#ff2a2a): Cor de ação principal (botões, abas, ícones).
+ *   5. Verde Limão Neon (#a3e635): Destaque vibrante para descontos PIX e promoções.
+ *   6. Laranja Neon (#ff5500): Destaques secundários de energia urbana.
+ * ============================================================================
+ */
+
+:root {
+  /* Tipografia principal */
+  --ion-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* COR PRIMÁRIA: Preto Profundo / Grafite Escuro para cabeçalhos e barras */
+  --ion-color-primary: #121216;
+  --ion-color-primary-rgb: 18, 18, 22;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #0a0a0d;
+  --ion-color-primary-tint: #24242c;
+
+  /* COR SECUNDÁRIA (DESTAQUE VIBRANTE 1): Vermelho Saturado Streetwear */
+  --ion-color-secondary: #ff2a2a;
+  --ion-color-secondary-rgb: 255, 42, 42;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #e02525;
+  --ion-color-secondary-tint: #ff3f3f;
+
+  /* COR TERCIÁRIA (DESTAQUE VIBRANTE 2): Laranja Neon Urbano */
+  --ion-color-tertiary: #ff5e00;
+  --ion-color-tertiary-rgb: 255, 94, 0;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #e05300;
+  --ion-color-tertiary-tint: #ff6e1a;
+
+  /* COR DE SUCESSO (DESTAQUE VIBRANTE 3): Verde Limão Neon (para PIX e Confirmações) */
+  --ion-color-success: #a3e635;
+  --ion-color-success-rgb: 163, 230, 53;
+  --ion-color-success-contrast: #09090b;
+  --ion-color-success-contrast-rgb: 9, 9, 11;
+  --ion-color-success-shade: #8fca2f;
+  --ion-color-success-tint: #ace949;
+
+  /* COR DE AVISO: Amarelo/Ouro para estrelas de avaliação */
+  --ion-color-warning: #facc15;
+  --ion-color-warning-rgb: 250, 204, 21;
+  --ion-color-warning-contrast: #09090b;
+  --ion-color-warning-contrast-rgb: 9, 9, 11;
+  --ion-color-warning-shade: #dcb412;
+  --ion-color-warning-tint: #fbce2c;
+
+  /* COR DE PERIGO: Vermelho Intenso */
+  --ion-color-danger: #ef4444;
+  --ion-color-danger-rgb: 239, 68, 68;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #d23c3c;
+  --ion-color-danger-tint: #f15757;
+
+  /* CORES NEUTRAS: Branco e Cinza Chumbo */
+  --ion-color-light: #ffffff;
+  --ion-color-light-rgb: 255, 255, 255;
+  --ion-color-light-contrast: #09090b;
+  --ion-color-light-contrast-rgb: 9, 9, 11;
+
+  --ion-color-medium: #a1a1aa;
+  --ion-color-medium-rgb: 161, 161, 170;
+  --ion-color-medium-contrast: #09090b;
+  --ion-color-medium-contrast-rgb: 9, 9, 11;
+
+  --ion-color-dark: #18181b;
+  --ion-color-dark-rgb: 24, 24, 27;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+
+  /* FUNDO GLOBAL PRETO PROFUNDO E SUPERFÍCIES EM CINZA CHUMBO */
+  --ion-background-color: #09090b;
+  --ion-background-color-rgb: 9, 9, 11;
+  --ion-text-color: #ffffff;
+  --ion-text-color-rgb: 255, 255, 255;
+  --ion-card-background: #18181b;
+  --ion-item-background: #18181b;
+  --ion-toolbar-background: #0d0d11;
+  --ion-toolbar-color: #ffffff;
+}

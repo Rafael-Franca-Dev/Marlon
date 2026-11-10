@@ -1,0 +1,7 @@
+{
+  "name": "loja-roupas",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

@@ -1,0 +1,271 @@
+<!--
+  ============================================================================
+  MAPA DO TEMPLATE: src/app/pages/sacola/sacola.page.html (Página 4 — Sacola)
+  ============================================================================
+  ONDE CADA INTEGRANTE ENCONTRA SEU REQUISITO NESTE HTML:
+  • INTEGRANTE 1 (Requisito 1 — 4 Páginas e UI/UX Streetwear):
+    - Quarta página funcional da aplicação (`/sacola`).
+  • INTEGRANTE 3 (Requisito 4 - Parte 2 — 2º Service `SacolaService`):
+    - Linhas 140 a 176: Controles de quantidade (`+` / `-`), remoção de item e
+      cálculo do subtotal e total usando os métodos do `SacolaService`.
+    - Linha 106: Clique na miniatura/título levando para `['/detalhes', item.produto.id]` (Ponto Extra).
+  • INTEGRANTE 4 (Requisito 3 — 4 Pipes):
+    - Linha 115: `{{ item.produto.category | traduzirCategoria | uppercase }}`
+    - Linha 125: `{{ item.produto.price | currency:'BRL' }}`
+    - Linha 134 e 206: `{{ ... | descontoPix:10 | currency:'BRL' }}`
+  • INTEGRANTE 5 (Requisito 5 — 2 Diretivas Personalizadas + `@if` e `@for`):
+    - Linha 59: Bloco `@if (pedidoConfirmado) { ... } @else if (...) { ... } @else { ... }`
+    - Linha 99: Bloco `@for (item of sacolaService.listarItens(); track item.produto.id)`
+    - Linhas 60, 77, 100 e 183: Diretiva Personalizada `appDestaqueCard`.
+    - Linha 200: Diretiva Personalizada `appBadgePromo`.
+  ============================================================================
+-->
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      <div class="logo-marca">
+        <span class="icone-marca">
+          <ion-icon name="bag-handle-outline"></ion-icon>
+        </span>
+        <div class="texto-marca">
+          <span class="nome-principal">MENINO MAU</span>
+          <span class="subtitulo-marca">MINHA SACOLA // SERVICE 2</span>
+        </div>
+      </div>
+    </ion-title>
+
+    <ion-buttons slot="end" class="nav-botoes">
+      <ion-button routerLink="/home" color="light" size="small">
+        <ion-icon slot="start" name="home-outline"></ion-icon>
+        Início
+      </ion-button>
+
+      <ion-button routerLink="/catalogo" color="light" size="small">
+        <ion-icon slot="start" name="grid-outline"></ion-icon>
+        Catálogo
+      </ion-button>
+
+      <ion-button routerLink="/sacola" fill="solid" color="secondary" size="small">
+        <ion-icon slot="start" name="bag-handle-outline"></ion-icon>
+        Sacola
+        @if (sacolaService.obterQuantidadeTotal() > 0) {
+          <ion-badge color="success" class="badge-topo">
+            {{ sacolaService.obterQuantidadeTotal() }}
+          </ion-badge>
+        }
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container-loja">
+    <!-- ================================================================== -->
+    <!-- DIRETIVA ESTRUTURAL 1: @if / @else (Integrante 5 - Requisito 5)    -->
+    <!-- ================================================================== -->
+    @if (pedidoConfirmado) {
+      <ion-card appDestaqueCard class="card-estado-sacola">
+        <ion-card-content>
+          <ion-icon name="checkmark-circle-outline" class="icone-destaque verde"></ion-icon>
+          <h2 class="titulo-urbano">PEDIDO CONFIRMADO COM SUCESSO!</h2>
+          <p>
+            Seu drop da <strong>MENINO MAU STREETWEAR</strong> foi processado pelo
+            nosso 2º Service (<code>SacolaService</code>).
+          </p>
+          <ion-button
+            color="secondary"
+            size="large"
+            routerLink="/catalogo"
+            (click)="pedidoConfirmado = false"
+          >
+            VOLTAR AO CATÁLOGO DE ROUPAS
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    } @else if (sacolaService.listarItens().length === 0) {
+      <ion-card appDestaqueCard class="card-estado-sacola">
+        <ion-card-content>
+          <ion-icon name="bag-handle-outline" class="icone-destaque"></ion-icon>
+          <h2 class="titulo-urbano">SUA SACOLA ESTÁ VAZIA</h2>
+          <p>
+            Você ainda não adicionou nenhuma peça de roupa. Explore o Catálogo
+            para adicionar itens masculinos ou femininos à sua sacola!
+          </p>
+          <ion-button color="secondary" size="large" routerLink="/catalogo">
+            <ion-icon slot="start" name="shirt-outline"></ion-icon>
+            EXPLORAR CATÁLOGO AGORA
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    } @else {
+      <ion-grid>
+        <ion-row>
+          <!-- Coluna da Lista de Peças na Sacola -->
+          <ion-col size="12" sizeLg="8">
+            <div class="cabecalho-sacola">
+              <h2 class="titulo-urbano">
+                ITENS NA SACOLA ({{ sacolaService.obterQuantidadeTotal() }})
+              </h2>
+              <ion-button fill="clear" color="danger" size="small" (click)="esvaziarSacola()">
+                <ion-icon slot="start" name="trash-outline"></ion-icon>
+                ESVAZIAR SACOLA
+              </ion-button>
+            </div>
+
+            <!--
+              DIRETIVA ESTRUTURAL 2: @for (Integrante 5 - Requisito 5)
+              Lista os itens gerenciados pelo SacolaService (Integrante 3).
+            -->
+            @for (item of sacolaService.listarItens(); track item.produto.id) {
+              <ion-card appDestaqueCard class="card-item-street">
+                <ion-card-content>
+                  <div class="linha-item">
+                    <!-- Miniatura em fundo Branco clicável (Ponto Extra: /detalhes/:id) -->
+                    <img
+                      [src]="item.produto.image"
+                      [alt]="item.produto.title"
+                      [routerLink]="['/detalhes', item.produto.id]"
+                      class="miniatura-street"
+                    />
+
+                    <div class="info-item">
+                      <span class="categoria-item">
+                        <!--
+                          • PIPE PERSONALIZADA 1: traduzirCategoria (Integrante 4)
+                          • PIPE BUILT-IN 2: uppercase (Integrante 4)
+                        -->
+                        {{ item.produto.category | traduzirCategoria | uppercase }}
+                      </span>
+
+                      <h3 [routerLink]="['/detalhes', item.produto.id]">
+                        {{ item.produto.title }}
+                      </h3>
+
+                      <div class="precos-item">
+                        <span>
+                          Tabela:
+                          <!-- PIPE BUILT-IN 1: currency:'BRL' -->
+                          <strong>{{ item.produto.price | currency:'BRL' }}</strong>
+                        </span>
+                        <span class="pix-item">
+                          No PIX:
+                          <!--
+                            • PIPE PERSONALIZADA 2: descontoPix:10
+                            • PIPE BUILT-IN 1: currency:'BRL'
+                          -->
+                          <strong>{{ item.produto.price | descontoPix:10 | currency:'BRL' }}</strong>
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- Controles do SacolaService (Integrante 3) -->
+                    <div class="controles-qtd">
+                      <div class="botoes-qtd">
+                        <ion-button
+                          fill="outline"
+                          color="light"
+                          size="small"
+                          (click)="diminuirItem(item.produto.id)"
+                        >
+                          <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
+                        </ion-button>
+
+                        <span class="numero-qtd">{{ item.quantidade }}</span>
+
+                        <ion-button
+                          fill="solid"
+                          color="secondary"
+                          size="small"
+                          (click)="aumentarItem(item.produto)"
+                        >
+                          <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+                        </ion-button>
+                      </div>
+
+                      <div class="subtotal-item">
+                        Subtotal:
+                        <strong>
+                          {{ (item.produto.price * item.quantidade) | currency:'BRL' }}
+                        </strong>
+                      </div>
+
+                      <ion-button
+                        fill="clear"
+                        color="danger"
+                        size="small"
+                        (click)="excluirItem(item.produto.id)"
+                      >
+                        <ion-icon slot="start" name="trash-outline"></ion-icon>
+                        Remover
+                      </ion-button>
+                    </div>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            }
+          </ion-col>
+
+          <!-- Coluna do Resumo Financeiro -->
+          <ion-col size="12" sizeLg="4">
+            <ion-card appDestaqueCard class="card-resumo-street">
+              <ion-card-header>
+                <ion-card-subtitle class="sub-resumo">
+                  {{ 'Fechamento do Drop' | uppercase }}
+                </ion-card-subtitle>
+                <ion-card-title class="titulo-urbano">RESUMO DO PEDIDO</ion-card-title>
+              </ion-card-header>
+
+              <ion-card-content>
+                <div class="linha-resumo">
+                  <span>Peças selecionadas:</span>
+                  <strong>{{ sacolaService.obterQuantidadeTotal() }} un.</strong>
+                </div>
+
+                <div class="linha-resumo">
+                  <span>Total de tabela:</span>
+                  <strong>{{ sacolaService.calcularValorTotal() | currency:'BRL' }}</strong>
+                </div>
+
+                <div class="caixa-pix-neon">
+                  <div class="topo-pix-resumo">
+                    <span>VALOR FINAL NO PIX:</span>
+                    <!-- DIRETIVA PERSONALIZADA 2: appBadgePromo (Integrante 5) -->
+                    <span appBadgePromo>{{ '10% off pix' | uppercase }}</span>
+                  </div>
+
+                  <div class="valor-final-pix">
+                    <!--
+                      • PIPE PERSONALIZADA 2: descontoPix:10 (Integrante 4)
+                      • PIPE BUILT-IN 1: currency:'BRL' (Integrante 4)
+                    -->
+                    {{ sacolaService.calcularValorTotal() | descontoPix:10 | currency:'BRL' }}
+                  </div>
+                </div>
+
+                <ion-button
+                  expand="block"
+                  color="success"
+                  size="large"
+                  (click)="finalizarCompra()"
+                >
+                  <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+                  FINALIZAR COMPRA
+                </ion-button>
+
+                <ion-button
+                  expand="block"
+                  fill="outline"
+                  color="light"
+                  routerLink="/catalogo"
+                >
+                  ESCOLHER MAIS PEÇAS
+                </ion-button>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    }
+  </div>
+</ion-content>

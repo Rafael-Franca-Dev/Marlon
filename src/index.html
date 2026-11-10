@@ -1,0 +1,50 @@
+<!--
+  ============================================================================
+  MAPA DO ARQUIVO: src/index.html (HTML Principal da Aplicação)
+  ============================================================================
+  • INTEGRANTE DE REFERÊNCIA: Integrante 1 (Estrutura Geral e UI/UX)
+  • O QUE ESTE ARQUIVO FAZ: Carrega a página base do aplicativo mobile Ionic,
+    importa a fonte urbana ('Inter' / 'Oswald' do Google Fonts) para o visual
+    Streetwear e renderiza o componente raiz <app-root>.
+  • ONDE PROCURAR:
+    - Linha 19: Configuração do tema escuro (color-scheme="dark") para o fundo
+      Preto Profundo e Cinza Chumbo.
+    - Linha 32: Tag <app-root></app-root> onde o Angular Standalone é montado.
+  ============================================================================
+-->
+<!doctype html>
+<html lang="pt-BR" class="ion-palette-dark">
+  <head>
+    <meta charset="utf-8" />
+    <title>MENINO MAU // Streetwear & Urban Clothing</title>
+
+    <base href="/" />
+
+    <!-- Define esquema escuro para combinar com Preto Profundo e Cinza Chumbo -->
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="viewport"
+      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <!-- Fontes urbanas modernas para reforçar o UI/UX Streetwear -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
+
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  </head>
+
+  <body>
+    <!-- Componente raiz da aplicação Angular Standalone -->
+    <app-root></app-root>
+  </body>
+</html>

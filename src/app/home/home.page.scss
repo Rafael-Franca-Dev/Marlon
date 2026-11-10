@@ -1,0 +1,311 @@
+/**
+ * ============================================================================
+ * MAPA DO ARQUIVO: src/app/home/home.page.scss
+ * Estilização Streetwear (Preto Profundo #09090b, Cinza Chumbo #18181b,
+ * Branco #ffffff, Vermelho Saturado #ff2a2a e Verde Limão #a3e635).
+ * ============================================================================
+ */
+
+.logo-marca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .icone-marca {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #ff2a2a;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    box-shadow: 0 0 14px rgba(255, 42, 42, 0.45);
+  }
+
+  .texto-marca {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+
+    .nome-principal {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+    }
+
+    .subtitulo-marca {
+      font-size: 0.62rem;
+      letter-spacing: 2px;
+      color: #a1a1aa;
+      font-weight: 600;
+    }
+  }
+}
+
+.badge-topo {
+  margin-left: 6px;
+  border-radius: 6px;
+  padding: 3px 7px;
+  font-weight: 800;
+}
+
+/* HERO STREETWEAR */
+.hero-streetwear {
+  background: radial-gradient(circle at top right, rgba(255, 42, 42, 0.22), transparent 55%),
+    linear-gradient(145deg, #18181b 0%, #0d0d11 100%);
+  border: 1px solid #27272a;
+  border-left: 5px solid #ff2a2a;
+  border-radius: 20px;
+  padding: 40px 32px;
+  margin: 8px 6px 36px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
+
+  .hero-grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+  }
+
+  .hero-texto {
+    flex: 1 1 540px;
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin: 18px 0 14px;
+      line-height: 1.1;
+      color: #ffffff;
+
+      .destaque-vermelho {
+        color: #ff2a2a;
+        text-shadow: 0 0 24px rgba(255, 42, 42, 0.35);
+      }
+    }
+
+    .descricao-hero {
+      font-size: 1.02rem;
+      color: #d4d4d8;
+      line-height: 1.65;
+      margin-bottom: 26px;
+      max-width: 620px;
+    }
+
+    .hero-botoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+
+      ion-button {
+        font-weight: 800;
+        letter-spacing: 0.6px;
+      }
+    }
+  }
+
+  .hero-stats {
+    flex: 1 1 260px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+
+    .stat-box {
+      background: #09090b;
+      border: 1px solid #27272a;
+      border-radius: 14px;
+      padding: 18px 14px;
+      text-align: center;
+
+      .stat-numero {
+        display: block;
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.65rem;
+        font-weight: 700;
+        color: #ffffff;
+
+        &.verde-limao {
+          color: #a3e635;
+        }
+
+        &.vermelho-neon {
+          color: #ff2a2a;
+        }
+      }
+
+      .stat-legenda {
+        font-size: 0.75rem;
+        color: #a1a1aa;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+      }
+    }
+  }
+}
+
+/* CABEÇALHOS DE SEÇÃO */
+.secao-titulo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin: 32px 8px 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #27272a;
+
+  .tag-secao {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+    color: #ff2a2a;
+    margin-bottom: 4px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.65rem;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  p {
+    margin: 6px 0 0;
+    color: #a1a1aa;
+    font-size: 0.92rem;
+  }
+}
+
+/* CARDS DE COLEÇÃO */
+.card-colecao {
+  height: 100%;
+  background: linear-gradient(160deg, #18181b 0%, #121216 100%);
+
+  .colecao-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .icone-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: rgba(255, 42, 42, 0.14);
+    border: 1px solid rgba(255, 42, 42, 0.4);
+    color: #ff2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.7rem;
+  }
+
+  .chip-drop {
+    font-weight: 800;
+    letter-spacing: 0.6px;
+  }
+
+  .subtitulo-colecao {
+    color: #a3e635;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    font-size: 0.78rem;
+  }
+
+  .titulo-colecao {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-top: 4px;
+  }
+
+  .texto-colecao {
+    color: #d4d4d8;
+    line-height: 1.55;
+    margin-bottom: 18px;
+  }
+
+  .cta-colecao {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #ff2a2a;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 0.8px;
+  }
+}
+
+/* CARDS DOS 5 INTEGRANTES */
+.card-membro {
+  height: 100%;
+  background: #18181b;
+
+  .membro-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .badge-numero {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff2a2a;
+    }
+  }
+
+  .titulo-membro {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.35;
+  }
+
+  .bloco-pergunta {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #27272a;
+
+    &:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .rotulo-pergunta {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #a3e635;
+      letter-spacing: 0.8px;
+      margin-bottom: 4px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.86rem;
+      color: #e4e4e7;
+      line-height: 1.45;
+    }
+
+    code {
+      display: block;
+      background: #09090b;
+      border: 1px solid #27272a;
+      color: #ff6e1a;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      word-break: break-word;
+    }
+  }
+}

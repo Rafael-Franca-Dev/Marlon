@@ -1,0 +1,241 @@
+<!--
+  ============================================================================
+  MAPA DO TEMPLATE: src/app/home/home.page.html (Página 1 — Vitrine Streetwear)
+  ============================================================================
+  ONDE ENCONTRAR CADA REQUISITO NESTE ARQUIVO:
+  • INTEGRANTE 1 (Requisito 1 - 4 Páginas e UI/UX):
+    - Linhas 19 a 52: Barra superior `<ion-header>` com navegação para `/home`,
+      `/catalogo` e `/sacola`, estilizada em Preto Profundo e Vermelho Saturado.
+    - Linhas 59 a 92: Hero Banner Streetwear "MENINO MAU".
+  • INTEGRANTE 4 (Requisito 3 - Pipes):
+    - Linha 65: Uso da Pipe Built-in `uppercase`.
+    - Linhas 123 e 127: Uso da Pipe Personalizada `traduzirCategoria` encadeada
+      com a Pipe Built-in `uppercase`.
+  • INTEGRANTE 5 (Requisito 5 - Diretivas Personalizadas e `@if` / `@for`):
+    - Linha 44: Diretiva Estrutural `@if` para mostrar o badge da sacola.
+    - Linha 64: Diretiva Personalizada `appBadgePromo` (etiqueta Verde Limão Neon).
+    - Linha 106 e 157: Diretiva Estrutural `@for` (sem usar *ngFor) para listar
+      os departamentos e os 5 integrantes da equipe.
+    - Linha 110 e 159: Diretiva Personalizada `appDestaqueCard` (efeito hover vermelho).
+  ============================================================================
+-->
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      <div class="logo-marca">
+        <span class="icone-marca">
+          <ion-icon name="shirt-outline"></ion-icon>
+        </span>
+        <div class="texto-marca">
+          <span class="nome-principal">MENINO MAU</span>
+          <span class="subtitulo-marca">STREETWEAR CO.</span>
+        </div>
+      </div>
+    </ion-title>
+
+    <!-- Navegação entre as páginas (Integrante 1 - Requisito 1) -->
+    <ion-buttons slot="end" class="nav-botoes">
+      <ion-button routerLink="/home" fill="solid" color="secondary" size="small">
+        <ion-icon slot="start" name="home-outline"></ion-icon>
+        Início
+      </ion-button>
+
+      <ion-button routerLink="/catalogo" color="light" size="small">
+        <ion-icon slot="start" name="grid-outline"></ion-icon>
+        Catálogo
+      </ion-button>
+
+      <ion-button routerLink="/sacola" color="light" size="small">
+        <ion-icon slot="start" name="bag-handle-outline"></ion-icon>
+        Sacola
+        <!-- DIRETIVA ESTRUTURAL @if (Integrante 5 - Requisito 5) -->
+        @if (sacolaService.obterQuantidadeTotal() > 0) {
+          <ion-badge color="success" class="badge-topo">
+            {{ sacolaService.obterQuantidadeTotal() }}
+          </ion-badge>
+        }
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container-loja">
+    <!-- ================================================================== -->
+    <!-- HERO BANNER STREETWEAR (Preto Profundo, Cinza Chumbo e Vermelho)   -->
+    <!-- ================================================================== -->
+    <section class="hero-streetwear">
+      <div class="hero-grid">
+        <div class="hero-texto">
+          <!--
+            DIRETIVA PERSONALIZADA 2: appBadgePromo (Integrante 5 - Requisito 5)
+            PIPE BUILT-IN: uppercase (Integrante 4 - Requisito 3)
+          -->
+          <span appBadgePromo>
+            {{ 'Drop Urbano // 10% OFF no PIX em toda a loja' | uppercase }}
+          </span>
+
+          <h1 class="titulo-urbano">
+            ATITUDE URBANA.<br />
+            <span class="destaque-vermelho">ESTILO SEM LIMITES.</span>
+          </h1>
+
+          <p class="descricao-hero">
+            Catálogo oficial conectado em tempo real à <strong>Fake Store API</strong>.
+            Explore nossas linhas masculinas e femininas com estética urbana, contraste
+            de alto impacto e desconto automático via PIX.
+          </p>
+
+          <div class="hero-botoes">
+            <ion-button
+              routerLink="/catalogo"
+              color="secondary"
+              size="large"
+              class="btn-acao-vermelho"
+            >
+              <ion-icon slot="start" name="shirt-outline"></ion-icon>
+              ACESSAR CATÁLOGO COMPLETO
+            </ion-button>
+
+            <ion-button
+              routerLink="/sacola"
+              fill="outline"
+              color="light"
+              size="large"
+              class="btn-acao-borda"
+            >
+              <ion-icon slot="start" name="bag-handle-outline"></ion-icon>
+              MINHA SACOLA ({{ sacolaService.obterQuantidadeTotal() }})
+            </ion-button>
+          </div>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-box">
+            <span class="stat-numero">4</span>
+            <span class="stat-legenda">Páginas Ionic</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-numero verde-limao">3 GETs</span>
+            <span class="stat-legenda">Fake Store API</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-numero">4 Pipes</span>
+            <span class="stat-legenda">2 Custom + 2 Nat.</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-numero vermelho-neon">2 Services</span>
+            <span class="stat-legenda">HTTP + Sacola</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SEÇÃO DE DEPARTAMENTOS (USA @for, PIPES E DIRETIVAS)               -->
+    <!-- ================================================================== -->
+    <div class="secao-titulo">
+      <div>
+        <span class="tag-secao">COLEÇÕES OFICIAIS</span>
+        <h2 class="titulo-urbano">ESCOLHA SUA LINHA</h2>
+      </div>
+      <p>Clique em uma linha para abrir o catálogo consumindo a API</p>
+    </div>
+
+    <ion-grid>
+      <ion-row>
+        <!-- DIRETIVA ESTRUTURAL @for (Integrante 5 - Requisito 5) -->
+        @for (cat of categoriasVitrine; track cat.chaveApi) {
+          <ion-col size="12" sizeMd="6">
+            <!-- DIRETIVA PERSONALIZADA 1: appDestaqueCard (Integrante 5 - Requisito 5) -->
+            <ion-card appDestaqueCard routerLink="/catalogo" class="card-colecao">
+              <ion-card-header>
+                <div class="colecao-topo">
+                  <div class="icone-box">
+                    <ion-icon [name]="cat.icone"></ion-icon>
+                  </div>
+                  <ion-chip color="secondary" class="chip-drop">
+                    <ion-label>{{ cat.destaque }}</ion-label>
+                  </ion-chip>
+                </div>
+
+                <ion-card-subtitle class="subtitulo-colecao">
+                  <!--
+                    PIPE PERSONALIZADA 1: traduzirCategoria (Integrante 4 - Requisito 3)
+                    PIPE BUILT-IN: uppercase (Integrante 4 - Requisito 3)
+                  -->
+                  {{ cat.chaveApi | traduzirCategoria | uppercase }}
+                </ion-card-subtitle>
+
+                <ion-card-title class="titulo-colecao">
+                  {{ cat.chaveApi | traduzirCategoria }}
+                </ion-card-title>
+              </ion-card-header>
+
+              <ion-card-content>
+                <p class="texto-colecao">{{ cat.descricao }}</p>
+                <div class="cta-colecao">
+                  <span>EXPLORAR PEÇAS AGORA</span>
+                  <ion-icon name="eye-outline"></ion-icon>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        }
+      </ion-row>
+    </ion-grid>
+
+    <!-- ================================================================== -->
+    <!-- SEÇÃO DOS 5 INTEGRANTES E DIVISÃO DE REQUISITOS PARA APRESENTAÇÃO  -->
+    <!-- ================================================================== -->
+    <div class="secao-titulo">
+      <div>
+        <span class="tag-secao">ORGANIZAÇÃO DA APRESENTAÇÃO</span>
+        <h2 class="titulo-urbano">
+          <ion-icon name="people-outline"></ion-icon>
+          DIVISÃO DOS 5 INTEGRANTES
+        </h2>
+      </div>
+      <p>Mapa rápido: o que cada integrante faz, onde está no código e onde ver em tela</p>
+    </div>
+
+    <ion-grid>
+      <ion-row>
+        <!-- DIRETIVA ESTRUTURAL @for (Integrante 5 - Requisito 5) -->
+        @for (membro of equipe; track membro.numero) {
+          <ion-col size="12" sizeMd="6" sizeLg="4">
+            <ion-card appDestaqueCard class="card-membro">
+              <ion-card-header>
+                <div class="membro-topo">
+                  <span class="badge-numero">#0{{ membro.numero }}</span>
+                  <span appBadgePromo>{{ membro.nome | uppercase }}</span>
+                </div>
+                <ion-card-title class="titulo-membro">
+                  {{ membro.requisitoTitulo }}
+                </ion-card-title>
+              </ion-card-header>
+
+              <ion-card-content>
+                <div class="bloco-pergunta">
+                  <span class="rotulo-pergunta">1. O QUE FAZ NO PROJETO:</span>
+                  <p>{{ membro.responsabilidade }}</p>
+                </div>
+
+                <div class="bloco-pergunta">
+                  <span class="rotulo-pergunta">2. ONDE BUSCAR NO CÓDIGO:</span>
+                  <code>{{ membro.arquivosCodigo }}</code>
+                </div>
+
+                <div class="bloco-pergunta">
+                  <span class="rotulo-pergunta">3. ONDE VER EM TELA:</span>
+                  <p>{{ membro.ondeVerNaTela }}</p>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        }
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
