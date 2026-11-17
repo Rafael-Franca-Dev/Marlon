@@ -1,51 +1,45 @@
 /**
  * ============================================================================
- * GUIA DO INTEGRANTE 4 — REQUISITO 3 (PARTE B: 2ª PIPE PERSONALIZADA)
+ * 👤 PARTE EXCLUSIVA DO GAGO — REQUISITO 3 (AS 4 PIPES: 2ª PIPE PERSONALIZADA)
  * ARQUIVO: src/app/pipes/desconto-pix.pipe.ts
  * ============================================================================
- * • QUEM APRESENTA ESTE CÓDIGO: INTEGRANTE 4
- * • QUAL REQUISITO DO PDF ESTÁ AQUI:
- *   Requisito 3 — Segunda Pipe Personalizada do projeto (`descontoPix`).
+ * 🎯 O QUE O GAGO DEVE EXPLICAR SOBRE ESTE ARQUIVO:
  *
- * • ONDE PROCURAR NESTE ARQUIVO:
- *   - Linha 29: Decorator `@Pipe({ name: 'descontoPix', standalone: true })`
- *   - Linha 39: Método `transform(precoOriginal, percentualDesconto = 10)` que
- *     aplica 10% de desconto para pagamento à vista via PIX.
+ * 1️⃣ O QUE ESTA PIPE FAZ?
+ *    "Esta é a nossa segunda Pipe Personalizada (`descontoPix`). Ela recebe o
+ *    preço normal da roupa (por exemplo, 119,90) e aplica 10% de desconto para
+ *    pagamento via PIX (multiplicando por 0,90), devolvendo o valor com desconto
+ *    sem alterar o preço original do produto."
  *
- * • COMO RESPONDER ÀS 3 PERGUNTAS DO PROFESSOR NA APRESENTAÇÃO:
- *   1. O que o requisito faz no seu projeto?
- *      Calcula em tempo real o preço promocional da roupa aplicando 10% de desconto
- *      para pagamentos no PIX, sendo encadeada diretamente com a Pipe Built-in
- *      `currency:'BRL'` para já exibir o valor formatado em Reais.
- *   2. Onde está no código?
- *      Neste arquivo (`src/app/pipes/desconto-pix.pipe.ts`) e aplicada nos
- *      templates `catalogo.page.html`, `detalhes.page.html` e `sacola.page.html`
- *      na expressão `{{ roupa.price | descontoPix:10 | currency:'BRL' }}`.
- *   3. Onde pode ser visto em tela?
- *      No preço em destaque (em Verde Limão Neon) em cada card do Catálogo, no
- *      box de preço da página de Detalhes e no valor final com PIX da Sacola.
+ * 2️⃣ ONDE ESTÁ NO CÓDIGO?
+ *    - Criada aqui em `src/app/pipes/desconto-pix.pipe.ts` (no método `transform` abaixo).
+ *    - Usada no HTML de `catalogo.page.html`, `detalhes.page.html` e `sacola.page.html`
+ *      junto com a Pipe nativa `currency:'BRL'`:
+ *      `{{ roupa.price | descontoPix:10 | currency:'BRL' }}`
+ *
+ * 3️⃣ ONDE PODE SER VISTO EM TELA?
+ *    - No preço em Verde Limão Neon nos cards do Catálogo, na página de Detalhes
+ *      da roupa e no Total com PIX dentro da Sacola.
  * ============================================================================
  */
 
-import type { PipeTransform } from '@angular/core';
 import { Pipe } from '@angular/core';
+import type { PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'descontoPix',
-  standalone: true, // Obrigatório usar Angular Standalone conforme o PDF
+  name: 'descontoPix', // Nome usado no HTML: | descontoPix:10
+  standalone: true,
 })
 export class DescontoPixPipe implements PipeTransform {
   /**
-   * Calcula o preço final após aplicar o percentual de desconto no PIX.
-   * @param precoOriginal Preço bruto do produto retornado pela API.
-   * @param percentualDesconto Porcentagem de desconto aplicada (padrão: 10%).
-   * @returns Valor numérico com desconto aplicado.
+   * [GAGO - Requisito 3]: Calcula o preço com desconto (padrão de 10% OFF).
    */
   transform(precoOriginal: number | undefined | null, percentualDesconto: number = 10): number {
     if (precoOriginal == null || isNaN(precoOriginal)) {
       return 0;
     }
 
+    // Exemplo: se o desconto é 10%, (100 - 10) / 100 = 0.90 (90% do valor original)
     const fatorDesconto = (100 - percentualDesconto) / 100;
     return Number((precoOriginal * fatorDesconto).toFixed(2));
   }

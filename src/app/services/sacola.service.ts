@@ -1,41 +1,36 @@
 /**
  * ============================================================================
- * GUIA DO INTEGRANTE 3 — REQUISITO 4 (PARTE 2: 2º SERVICE) E REQUISITO 6 (PONTO EXTRA)
+ * 👤 PARTE EXCLUSIVA DO RAFAEL — REQUISITO 4 (2º SERVICE) E REQUISITO 6 (ROTA :ID)
  * ARQUIVO: src/app/services/sacola.service.ts
  * ============================================================================
- * • QUEM APRESENTA ESTE CÓDIGO: INTEGRANTE 3
- * • QUAIS REQUISITOS DO PDF ESTÃO AQUI:
- *   1. Requisito 4 - Parte 2 (1,0 ponto): Segundo Service do projeto com outra
- *      funcionalidade distinta do HttpClient (gerenciamento completo da Sacola
- *      de Compras da loja e dados dos 5 integrantes da equipe).
- *   2. Requisito 6 - Ponto Extra (+1,0 ponto): Passar um parâmetro por rota de
- *      uma página anterior (`/catalogo`) para outra página (`/detalhes/:id`).
+ * 🎯 O QUE O RAFAEL DEVE EXPLICAR PARA O PROFESSOR:
  *
- * • ONDE PROCURAR NESTE ARQUIVO:
- *   - Linha 57: Array `private itens: ItemSacola[] = []` que guarda as roupas na sacola.
- *   - Linha 108: `adicionarItem(produto)` -> adiciona roupa ou soma +1 na quantidade.
- *   - Linha 122: `diminuirQuantidade(produtoId)` -> reduz quantidade ou remove item.
- *   - Linha 139: `removerItem(produtoId)` e `limparSacola()`.
- *   - Linha 153 e 160: `obterQuantidadeTotal()` e `calcularValorTotal()`.
+ * 1️⃣ PERGUNTA 1: O QUE O REQUISITO FAZ NO SEU PROJETO?
+ *    "Professor, eu fiquei com o segundo Service do projeto (Requisito 4) e com
+ *    a passagem de parâmetro por rota (Requisito 6 - Ponto Extra).
+ *    • Este arquivo é o SacolaService: ele guarda em memória as roupas que o
+ *      cliente adiciona na sacola, permite aumentar ou diminuir a quantidade,
+ *      remover peças e calcula o valor total da compra.
+ *    • E no Requisito 6 (Ponto Extra), quando o cliente clica em uma roupa no
+ *      Catálogo, nós enviamos o ID dessa roupa na URL (`/detalhes/:id`) para
+ *      abrir a página de Detalhes daquela peça específica."
  *
- * • ONDE PROCURAR O REQUISITO 6 (PARÂMETRO POR ROTA) QUE O INTEGRANTE 3 TAMBÉM APRESENTA:
- *   - `src/app/app.routes.ts` (Linha 35): Rota configurada como `path: 'detalhes/:id'`.
- *   - `src/app/pages/catalogo/catalogo.page.html` (Linha 121): Clique no card usando
- *     `[routerLink]="['/detalhes', roupa.id]"`.
- *   - `src/app/pages/detalhes/detalhes.page.ts` (Linha 129): Captura do ID na URL usando
- *     `this.route.snapshot.paramMap.get('id')`.
+ * 2️⃣ PERGUNTA 2: ONDE ESTÁ NO CÓDIGO?
+ *    - Parte A (2º Service): Neste arquivo (`src/app/services/sacola.service.ts`):
+ *      • Linha 51: `private itens: ItemSacola[] = []` (lista que guarda as roupas).
+ *      • Linha 60: `adicionarItem()` (adiciona roupa ou soma +1 se já existir).
+ *      • Linha 75: `diminuirQuantidade()` e `removerItem()`.
+ *      • Linha 108: `calcularValorTotal()` (multiplica preço × quantidade).
+ *    - Parte B (Parâmetro por Rota - Ponto Extra):
+ *      • Em `src/app/app.routes.ts` (Linha 46): `path: 'detalhes/:id'`.
+ *      • Em `src/app/pages/catalogo/catalogo.page.html` (Linha 118): `[routerLink]="['/detalhes', roupa.id]"`.
+ *      • Em `src/app/pages/detalhes/detalhes.page.ts` (Linha 127): `params.get('id')` via `ActivatedRoute`.
  *
- * • COMO RESPONDER ÀS 3 PERGUNTAS DO PROFESSOR NA APRESENTAÇÃO:
- *   1. O que o requisito faz no seu projeto?
- *      O `SacolaService` mantém os itens adicionados pelo cliente disponíveis em todas
- *      as 4 páginas, calculando quantidades e subtotais; além disso, a rota parametrizada
- *      envia o `id` da roupa clicada no Catálogo até a tela de Detalhes.
- *   2. Onde está no código?
- *      Neste arquivo (`src/app/services/sacola.service.ts`) e na captura de rota com
- *      `ActivatedRoute` em `src/app/pages/detalhes/detalhes.page.ts`.
- *   3. Onde pode ser visto em tela?
- *      Clicando no botão "+ Sacola" em qualquer roupa, vendo o contador subir no topo
- *      e abrindo a página Sacola (`/sacola`), ou clicando em uma roupa para abrir `/detalhes/1`.
+ * 3️⃣ PERGUNTA 3: ONDE PODE SER VISTO EM TELA?
+ *    - No Catálogo, clique em uma roupa: mostre a URL lá em cima mudando para
+ *      `/detalhes/2` (ou `/detalhes/4`) e abrindo a roupa certa (Ponto Extra).
+ *    - Depois clique no botão "+ SACOLA", mostre o número subindo no topo da
+ *      tela e abra a página "Sacola" para mostrar os botões `+`, `-` e o total.
  * ============================================================================
  */
 
@@ -44,96 +39,27 @@ import { Injectable } from '@angular/core';
 import type { ProdutoRoupa } from './roupas.service';
 
 /**
- * Interface que representa um item dentro da sacola de compras.
+ * Representa cada linha da sacola de compras: qual é a roupa e quantas unidades.
  */
 export interface ItemSacola {
   produto: ProdutoRoupa;
   quantidade: number;
 }
 
-/**
- * Interface que estrutura a divisão dos 5 integrantes do grupo para
- * consulta rápida na tela Home e durante a apresentação ao professor.
- */
-export interface IntegranteEquipe {
-  numero: number;
-  nome: string;
-  requisitoTitulo: string;
-  responsabilidade: string;
-  arquivosCodigo: string;
-  ondeVerNaTela: string;
-}
-
 @Injectable({
+  // 'root' mantém os itens salvos na sacola mesmo quando o cliente troca de página
   providedIn: 'root',
 })
 export class SacolaService {
-  /**
-   * Array privado em memória que guarda os itens adicionados à sacola.
-   */
+  // [RAFAEL - Requisito 4]: Lista em memória onde ficam guardadas as roupas da sacola
   private itens: ItemSacola[] = [];
 
-  /**
-   * Divisão oficial dos 5 integrantes do grupo (1 requisito claro por integrante).
-   */
-  private readonly equipe: IntegranteEquipe[] = [
-    {
-      numero: 1,
-      nome: 'Integrante 1',
-      requisitoTitulo: 'Requisito 1 — 4 Páginas, Rotas e UI/UX Streetwear (1,0 pt)',
-      responsabilidade:
-        'Estrutura das 4 páginas (Home, Catálogo, Detalhes, Sacola), navegação com RouterLink e estilização Streetwear (Preto Profundo, Cinza Chumbo, Vermelho e Verde Limão).',
-      arquivosCodigo: 'src/app/app.routes.ts, src/global.scss e pastas src/app/home e src/app/pages/*',
-      ondeVerNaTela: 'Navegação completa entre as 4 telas estilizadas e barra superior fixa.',
-    },
-    {
-      numero: 2,
-      nome: 'Integrante 2',
-      requisitoTitulo: 'Requisito 2 e 4 (Parte 1) — API com 3 GETs + RoupasService (1,5 pt)',
-      responsabilidade:
-        'Configuração do provideHttpClient() e criação do 1º Service (RoupasService) consumindo a Fake Store API com 3 métodos GET distintos.',
-      arquivosCodigo: 'src/app/services/roupas.service.ts e src/main.ts',
-      ondeVerNaTela:
-        'Abas Masculino (GET 1) e Feminino (GET 2) no Catálogo, e carregamento por ID (GET 3) em Detalhes.',
-    },
-    {
-      numero: 3,
-      nome: 'Integrante 3',
-      requisitoTitulo: 'Requisito 4 (Parte 2) e Requisito 6 (Extra) — SacolaService + Rota :id (2,0 pts)',
-      responsabilidade:
-        'Criação do 2º Service (SacolaService) para gerenciar a sacola de compras e passagem de parâmetro :id por rota do Catálogo para Detalhes.',
-      arquivosCodigo: 'src/app/services/sacola.service.ts e src/app/pages/detalhes/detalhes.page.ts',
-      ondeVerNaTela: 'Clique em uma roupa abrindo /detalhes/:id e adição/remoção/cálculo de itens na página Sacola.',
-    },
-    {
-      numero: 4,
-      nome: 'Integrante 4',
-      requisitoTitulo: 'Requisito 3 — 4 Pipes: 2 Personalizadas + 2 Built-in (1,0 pt)',
-      responsabilidade:
-        'Criação das 2 Pipes Personalizadas (traduzirCategoria e descontoPix) e aplicação das 2 Pipes Built-in nativas (currency:BRL e uppercase).',
-      arquivosCodigo: 'src/app/pipes/traduzir-categoria.pipe.ts e src/app/pipes/desconto-pix.pipe.ts',
-      ondeVerNaTela: 'Preços em R$, cálculo de 10% OFF no PIX e categorias traduzidas em maiúsculas nos cards.',
-    },
-    {
-      numero: 5,
-      nome: 'Integrante 5',
-      requisitoTitulo: 'Requisito 5 — 2 Diretivas Personalizadas + @if e @for (1,5 pt)',
-      responsabilidade:
-        'Criação das 2 Diretivas Personalizadas (appDestaqueCard e appBadgePromo) com @HostBinding/@HostListener e uso dos blocos estruturais @if e @for.',
-      arquivosCodigo: 'src/app/directives/destaque-card.directive.ts, badge-promo.directive.ts e templates .html',
-      ondeVerNaTela:
-        'Efeito neon vermelho ao passar nos cards, etiqueta verde limão PIX, loading @if e listagens @for.',
-    },
-  ];
-
+  // [RAFAEL]: Devolve todas as roupas que estão na sacola no momento
   listarItens(): ItemSacola[] {
     return this.itens;
   }
 
-  listarEquipe(): IntegranteEquipe[] {
-    return this.equipe;
-  }
-
+  // [RAFAEL]: Adiciona uma roupa na sacola (se já tiver essa roupa, soma +1 na quantidade)
   adicionarItem(produto: ProdutoRoupa): void {
     const itemExistente = this.itens.find((item) => item.produto.id === produto.id);
 
@@ -144,6 +70,7 @@ export class SacolaService {
     }
   }
 
+  // [RAFAEL]: Diminui 1 unidade da roupa na sacola (se chegar a zero, remove da sacola)
   diminuirQuantidade(produtoId: number): void {
     const itemExistente = this.itens.find((item) => item.produto.id === produtoId);
 
@@ -158,18 +85,22 @@ export class SacolaService {
     }
   }
 
+  // [RAFAEL]: Remove uma peça completamente da sacola pelo ID
   removerItem(produtoId: number): void {
     this.itens = this.itens.filter((item) => item.produto.id !== produtoId);
   }
 
+  // [RAFAEL]: Esvazia toda a sacola (usado no botão "Esvaziar" e ao finalizar a compra)
   limparSacola(): void {
     this.itens = [];
   }
 
+  // [RAFAEL]: Conta quantas peças no total existem dentro da sacola (para o ícone do topo)
   obterQuantidadeTotal(): number {
     return this.itens.reduce((acumulador, item) => acumulador + item.quantidade, 0);
   }
 
+  // [RAFAEL]: Calcula o valor total somando (preço da roupa × quantidade) de cada item
   calcularValorTotal(): number {
     return this.itens.reduce((acumulador, item) => acumulador + item.produto.price * item.quantidade, 0);
   }

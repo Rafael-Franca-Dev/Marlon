@@ -1,26 +1,23 @@
 <!--
   ============================================================================
-  MAPA DO TEMPLATE: src/app/pages/catalogo/catalogo.page.html (Página 2 — Catálogo)
+  👤 PÁGINA 2: TEMPLATE DO CATÁLOGO (src/app/pages/catalogo/catalogo.page.html)
   ============================================================================
-  ONDE CADA INTEGRANTE ENCONTRA SEU REQUISITO NESTE HTML:
-  • INTEGRANTE 1 (Requisito 1 — Páginas e UI/UX Streetwear):
-    - Estrutura da página `<ion-header>` e `<ion-content>` com estética escura urbana.
-  • INTEGRANTE 2 (Requisito 2 — API 3 GETs & Requisito 4 — RoupasService):
-    - `<ion-segment>` que dispara o MÉTODO GET 1 (Roupas Masculinas) e o MÉTODO GET 2
-      (Roupas Femininas) na Fake Store API.
-  • INTEGRANTE 3 (Requisito 4 — SacolaService & Requisito 6 — Parâmetro por Rota):
-    - `[routerLink]="['/detalhes', roupa.id]"` que passa o ID da roupa clicada por rota
-      para `/detalhes/:id` (Ponto Extra - 1,0 pt).
-    - `(click)="adicionarNaSacola($event, roupa)"` que usa o `SacolaService`.
-  • INTEGRANTE 4 (Requisito 3 — 4 Pipes):
-    - `{{ roupa.category | traduzirCategoria | uppercase }}` (Pipe Personalizada 1 + Built-in 2).
-    - `{{ roupa.price | currency:'BRL' }}` (Pipe Built-in 1).
-    - `{{ roupa.price | descontoPix:10 | currency:'BRL' }}` (Pipe Personalizada 2 + Built-in 1).
-  • INTEGRANTE 5 (Requisito 5 — 2 Diretivas Personalizadas + `@if` e `@for`):
-    - Bloco `@if (carregando) { ... } @else { ... }` (Diretiva Estrutural 1).
-    - Bloco `@for (roupa of listaRoupas; track roupa.id)` (Diretiva Estrutural 2).
-    - Atributo `appDestaqueCard` no `<ion-card>` (Diretiva Personalizada 1).
-    - Atributo `appBadgePromo` no `<span>` do PIX (Diretiva Personalizada 2).
+  📍 ONDE CADA UM DOS 5 INTEGRANTES ENCONTRA SUA PARTE AQUI:
+  • MENINO MAL (Requisito 1): Estrutura visual da 2ª Página (`CatalogoPage`).
+  • THIAGO (Requisito 2 e 4): Linhas 64 a 78 — `<ion-segment>` onde o cliente
+    escolhe entre "Roupas Masculinas" (GET 1) e "Roupas Femininas" (GET 2).
+  • RAFAEL (Requisito 4 e 6 Extra):
+    - Linha 108 e 157: `[routerLink]="['/detalhes', roupa.id]"` (envia o ID pela rota).
+    - Linha 167: `(click)="adicionarNaSacola($event, roupa)"` (usa o `SacolaService`).
+  • GAGO (Requisito 3 — As 4 Pipes):
+    - Linha 125: `{{ roupa.category | traduzirCategoria | uppercase }}` (2 Pipes).
+    - Linha 137: `{{ roupa.price | currency:'BRL' }}` (Pipe Built-in).
+    - Linha 145: `{{ roupa.price | descontoPix:10 | currency:'BRL' }}` (Pipe Custom + Built-in).
+  • NETO (Requisito 5 — 2 Diretivas Personalizadas + `@if` e `@for`):
+    - Linha 83: `@if (carregando) { ... } @else { ... }` (Diretiva Estrutural 1).
+    - Linha 101: `@for (roupa of listaRoupas; track roupa.id)` (Diretiva Estrutural 2).
+    - Linha 107: `appDestaqueCard` no `<ion-card>` (Diretiva Personalizada 1).
+    - Linha 148: `appBadgePromo` no `<span>` do PIX (Diretiva Personalizada 2).
   ============================================================================
 -->
 
@@ -38,6 +35,7 @@
       </div>
     </ion-title>
 
+    <!-- [MENINO MAL - Requisito 1]: Menu de navegação entre as páginas -->
     <ion-buttons slot="end" class="nav-botoes">
       <ion-button routerLink="/home" color="light" size="small">
         <ion-icon slot="start" name="home-outline"></ion-icon>
@@ -62,7 +60,7 @@
 <ion-content [fullscreen]="true">
   <div class="container-loja">
     <!-- ================================================================== -->
-    <!-- PAINEL DE SELEÇÃO DO CATÁLOGO (MASCULINO E FEMININO)               -->
+    <!-- [THIAGO - Requisito 2]: ESCOLHA O CATÁLOGO (MASCULINO = GET 1 / FEMININO = GET 2) -->
     <!-- ================================================================== -->
     <div class="painel-topo-catalogo">
       <div class="cabecalho-catalogo">
@@ -87,7 +85,7 @@
     </div>
 
     <!-- ================================================================== -->
-    <!-- DIRETIVA ESTRUTURAL 1: @if / @else (Integrante 5 - Requisito 5)    -->
+    <!-- [NETO - Requisito 5]: DIRETIVA ESTRUTURAL 1 (@if / @else)          -->
     <!-- ================================================================== -->
     @if (carregando) {
     <div class="estado-loading">
@@ -105,16 +103,15 @@
     <ion-grid>
       <ion-row>
         <!-- ============================================================ -->
-        <!-- DIRETIVA ESTRUTURAL 2: @for (Integrante 5 - Requisito 5)     -->
+        <!-- [NETO - Requisito 5]: DIRETIVA ESTRUTURAL 2 (@for)           -->
         <!-- ============================================================ -->
         @for (roupa of listaRoupas; track roupa.id) {
         <ion-col size="12" sizeSm="6" sizeMd="4">
           <!--
-                • DIRETIVA PERSONALIZADA 1: appDestaqueCard (Integrante 5)
-                • PONTO EXTRA (Requisito 6 - Integrante 3): [routerLink]="['/detalhes', roupa.id]"
+                • [NETO - Requisito 5]: Diretiva Personalizada 1 (appDestaqueCard)
+                • [RAFAEL - Requisito 6 Extra]: [routerLink]="['/detalhes', roupa.id]"
               -->
           <ion-card appDestaqueCard [routerLink]="['/detalhes', roupa.id]" class="card-produto-street">
-            <!-- Vitrine da Imagem em fundo Branco Puro para contraste máximo -->
             <div class="vitrine-imagem">
               <span class="tag-id">COD. {{ roupa.id }}</span>
               <img [src]="roupa.image" [alt]="roupa.title" loading="lazy" />
@@ -127,10 +124,7 @@
 
             <ion-card-header>
               <ion-card-subtitle class="categoria-produto">
-                <!--
-                      • PIPE PERSONALIZADA 1: traduzirCategoria (Integrante 4)
-                      • PIPE BUILT-IN 2: uppercase (Integrante 4)
-                    -->
+                <!-- [GAGO - Requisito 3]: Pipe Personalizada 1 (traduzirCategoria) + Pipe Nativa 2 (uppercase) -->
                 {{ roupa.category | traduzirCategoria | uppercase }}
               </ion-card-subtitle>
 
@@ -138,35 +132,30 @@
             </ion-card-header>
 
             <ion-card-content class="corpo-card">
-              <!-- Quadro de Preços em Preto Profundo com destaque Verde Limão Neon -->
               <div class="box-precos-street">
                 <span class="preco-de">
-                  <!-- PIPE BUILT-IN 1: currency:'BRL' (Integrante 4) -->
+                  <!-- [GAGO - Requisito 3]: Pipe Nativa 1 (currency:'BRL') -->
                   De: {{ roupa.price | currency:'BRL' }}
                 </span>
 
                 <div class="linha-pix">
                   <strong class="valor-pix-neon">
-                    <!--
-                          • PIPE PERSONALIZADA 2: descontoPix:10 (Integrante 4)
-                          • PIPE BUILT-IN 1: currency:'BRL' (Integrante 4)
-                        -->
+                    <!-- [GAGO - Requisito 3]: Pipe Personalizada 2 (descontoPix:10) + Pipe Nativa 1 (currency:'BRL') -->
                     {{ roupa.price | descontoPix:10 | currency:'BRL' }}
                   </strong>
-                  <!-- DIRETIVA PERSONALIZADA 2: appBadgePromo (Integrante 5) -->
+                  <!-- [NETO - Requisito 5]: Diretiva Personalizada 2 (appBadgePromo) -->
                   <span appBadgePromo>{{ '10% off pix' | uppercase }}</span>
                 </div>
               </div>
 
-              <!-- Botões de Ação -->
               <div class="botoes-card">
-                <!-- Requisito 6 Extra (Integrante 3): envia o :id por rota -->
+                <!-- [RAFAEL - Requisito 6 Extra]: Passa o :id da roupa por rota -->
                 <ion-button fill="outline" color="light" size="small" [routerLink]="['/detalhes', roupa.id]">
                   <ion-icon slot="start" name="eye-outline"></ion-icon>
                   VER PEÇA
                 </ion-button>
 
-                <!-- Requisito 4 (Integrante 3): adiciona ao SacolaService -->
+                <!-- [RAFAEL - Requisito 4]: Chama o 2º Service (SacolaService) -->
                 <ion-button
                   fill="solid"
                   [color]="ultimoAdicionadoId === roupa.id ? 'success' : 'secondary'"

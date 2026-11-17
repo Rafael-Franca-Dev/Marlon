@@ -1,21 +1,22 @@
 <!--
   ============================================================================
-  MAPA DO TEMPLATE: src/app/pages/detalhes/detalhes.page.html (Página 3 — Detalhes)
+  👤 PÁGINA 3: TEMPLATE DE DETALHES (src/app/pages/detalhes/detalhes.page.html)
   ============================================================================
-  ONDE CADA INTEGRANTE ENCONTRA SEU REQUISITO NESTE HTML:
-  • INTEGRANTE 3 (Requisito 6 Extra — Parâmetro por Rota & Requisito 4 — SacolaService):
-    - Exibe os detalhes exclusivos da peça correspondente ao `:id` recebido na rota `/detalhes/:id`.
-    - Botão `(click)="adicionarPecaNaSacola()"` que aciona o `SacolaService`.
-  • INTEGRANTE 2 (Requisito 2 — 3º Método GET da API):
-    - Exibição completa dos dados retornados pelo `getRoupaPorId(id)`.
-  • INTEGRANTE 4 (Requisito 3 — 4 Pipes):
-    - `{{ roupaSelecionada.category | traduzirCategoria | uppercase }}`
-    - `{{ roupaSelecionada.price | currency:'BRL' }}`
-    - `{{ roupaSelecionada.price | descontoPix:10 | currency:'BRL' }}`
-  • INTEGRANTE 5 (Requisito 5 — 2 Diretivas Personalizadas + `@if` e `@for`):
-    - Bloco `@if (carregando)` mostrando a frase "Estamos separando no estoque para visualização..."
-    - Diretivas Personalizadas `appDestaqueCard` e `appBadgePromo`.
-    - Bloco `@for (tam of tamanhosDisponiveis; track tam)` nos tamanhos.
+  📍 ONDE CADA UM DOS 5 INTEGRANTES ENCONTRA SUA PARTE AQUI:
+  • MENINO MAL (Requisito 1): Estrutura visual da 3ª Página (`DetalhesPage`).
+  • THIAGO (Requisito 2): Dados da roupa carregados pelo 3º método GET (`getRoupaPorId`).
+  • RAFAEL (Requisito 6 Extra e Requisito 4):
+    - Exibe a roupa correspondente ao `:id` recebido pela rota `/detalhes/:id`.
+    - Linha 139: Botão `(click)="adicionarPecaNaSacola()"` que usa o `SacolaService`.
+  • GAGO (Requisito 3 — As 4 Pipes):
+    - Linha 71: `{{ roupaSelecionada.category | traduzirCategoria | uppercase }}`
+    - Linha 94: `{{ roupaSelecionada.price | currency:'BRL' }}`
+    - Linha 103: `{{ roupaSelecionada.price | descontoPix:10 | currency:'BRL' }}`
+  • NETO (Requisito 5 — Diretivas Personalizadas + `@if` e `@for`):
+    - Linha 47: `@if (carregando)` mostrando "Estamos separando no estoque para visualização..."
+    - Linha 53: `appDestaqueCard` no `<ion-card>`.
+    - Linha 108: `appBadgePromo` no selo Verde Limão Neon.
+    - Linha 118: `@for (tam of tamanhosDisponiveis; track tam)` nos tamanhos P, M, G, GG.
   ============================================================================
 -->
 
@@ -50,18 +51,17 @@
 
 <ion-content [fullscreen]="true">
   <div class="container-loja">
-    <!-- DIRETIVA ESTRUTURAL 1: @if / @else (Integrante 5 - Requisito 5) -->
+    <!-- [NETO - Requisito 5]: Diretiva estrutural @if / @else -->
     @if (carregando) {
     <div class="estado-central">
       <ion-spinner name="crescent" color="secondary"></ion-spinner>
       <p>Estamos separando no estoque para visualização...</p>
     </div>
     } @else if (roupaSelecionada) {
-    <!-- DIRETIVA PERSONALIZADA 1: appDestaqueCard (Integrante 5 - Requisito 5) -->
+    <!-- [NETO - Requisito 5]: Diretiva personalizada appDestaqueCard -->
     <ion-card appDestaqueCard class="card-detalhes-street">
       <ion-grid>
         <ion-row class="ion-align-items-center">
-          <!-- Coluna da Imagem em Vitrine Branca com Borda Vermelha -->
           <ion-col size="12" sizeMd="5">
             <div class="painel-imagem-street">
               <span class="selo-rota">REF. #0{{ roupaSelecionada.id }}</span>
@@ -69,17 +69,13 @@
             </div>
           </ion-col>
 
-          <!-- Coluna de Informações, Preços, Tamanhos e Botões -->
           <ion-col size="12" sizeMd="7">
             <ion-card-header>
               <div class="topo-chips">
                 <ion-chip color="secondary">
                   <ion-icon name="pricetag-outline"></ion-icon>
                   <ion-label>
-                    <!--
-                        • PIPE PERSONALIZADA 1: traduzirCategoria (Integrante 4)
-                        • PIPE BUILT-IN 2: uppercase (Integrante 4)
-                      -->
+                    <!-- [GAGO - Requisito 3]: Pipe traduzirCategoria + Pipe uppercase -->
                     {{ roupaSelecionada.category | traduzirCategoria | uppercase }}
                   </ion-label>
                 </ion-chip>
@@ -96,11 +92,10 @@
             </ion-card-header>
 
             <ion-card-content>
-              <!-- Quadro de Preços em Preto Profundo + Verde Limão Neon -->
               <div class="quadro-precos-street">
                 <div class="preco-tabela">
                   <span>Valor normal:</span>
-                  <!-- PIPE BUILT-IN 1: currency:'BRL' (Integrante 4) -->
+                  <!-- [GAGO - Requisito 3]: Pipe Built-in currency:'BRL' -->
                   <strong>{{ roupaSelecionada.price | currency:'BRL' }}</strong>
                 </div>
 
@@ -108,23 +103,20 @@
                   <div>
                     <span class="legenda-pix">VALOR ESPECIAL À VISTA NO PIX:</span>
                     <div class="valor-destaque-neon">
-                      <!--
-                          • PIPE PERSONALIZADA 2: descontoPix:10 (Integrante 4)
-                          • PIPE BUILT-IN 1: currency:'BRL' (Integrante 4)
-                        -->
+                      <!-- [GAGO - Requisito 3]: Pipe descontoPix:10 + Pipe currency:'BRL' -->
                       {{ roupaSelecionada.price | descontoPix:10 | currency:'BRL' }}
                     </div>
                   </div>
 
-                  <!-- DIRETIVA PERSONALIZADA 2: appBadgePromo (Integrante 5) -->
+                  <!-- [NETO - Requisito 5]: Diretiva personalizada appBadgePromo -->
                   <span appBadgePromo> {{ 'Economize 10% no PIX' | uppercase }} </span>
                 </div>
               </div>
 
-              <!-- Seleção de Tamanho usando a Diretiva Estrutural @for (Integrante 5) -->
               <div class="secao-tamanhos">
                 <p class="rotulo-secao">ESCOLHA O TAMANHO:</p>
                 <div class="lista-tamanhos">
+                  <!-- [NETO - Requisito 5]: Diretiva estrutural @for -->
                   @for (tam of tamanhosDisponiveis; track tam) {
                   <ion-button
                     [fill]="tamanhoEscolhido === tam ? 'solid' : 'outline'"
@@ -138,13 +130,12 @@
                 </div>
               </div>
 
-              <!-- Descrição completa da peça -->
               <div class="secao-descricao">
                 <p class="rotulo-secao">DETALHES E MODELAGEM:</p>
                 <p class="texto-descricao">{{ roupaSelecionada.description }}</p>
               </div>
 
-              <!-- Botões de Compra (Integrante 3 - SacolaService) -->
+              <!-- [RAFAEL - Requisito 4]: Botão que adiciona a peça ao SacolaService -->
               <div class="botoes-compra">
                 <ion-button
                   expand="block"

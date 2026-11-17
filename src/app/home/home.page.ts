@@ -1,19 +1,19 @@
 /**
  * ============================================================================
- * GUIA DO INTEGRANTE 1 — REQUISITO 1 (PÁGINA 1: HOME / VITRINE STREETWEAR)
- * ARQUIVO: src/app/home/home.page.ts
+ * 👤 PARTE PRINCIPAL DO MENINO MAL — PÁGINA 1: HOME (src/app/home/home.page.ts)
  * ============================================================================
- * • QUEM APRESENTA ESTE CÓDIGO PRINCIPALMENTE: INTEGRANTE 1
- * • REQUISITOS PRESENTES NESTE ARQUIVO PARA OS DEMAIS INTEGRANTES SABEREM ONDE BUSCAR:
- *   - INTEGRANTE 1 (Requisito 1): Estrutura Standalone da Página 1 (`HomePage`),
- *     exibindo os Produtos em Destaque da Semana, a seção "Escolha sua Linha"
- *     (Moda Masculina e Moda Feminina) e o Carrossel de Roupas em Destaque.
- *   - INTEGRANTE 3 (Requisito 4 - Parte 2): Injeção do `SacolaService` para o
- *     contador de itens da sacola no cabeçalho e links parametrizados `/detalhes/:id`.
- *   - INTEGRANTE 4 (Requisito 3): Uso da Pipe Built-in `UpperCasePipe` e da
- *     Pipe Personalizada `TraduzirCategoriaPipe`.
- *   - INTEGRANTE 5 (Requisito 5): Uso das Diretivas Personalizadas (`appDestaqueCard`
- *     e `appBadgePromo`) e das Diretivas Estruturais `@if` e `@for`.
+ * 🎯 O QUE O MENINO MAL EXPLICA NESTE ARQUIVO:
+ * - É a 1ª página do aplicativo (`HomePage`, configurada com `standalone: true`).
+ * - Mostra os Produtos em Destaque da Semana (`destaquesDaSemana`: "T-SHIRT Menino Malino"
+ *   e "Calça Agredindo a Moda").
+ * - Mostra a seção "Escolha sua Linha" (`categoriasVitrine`: Masculino e Feminino).
+ * - Controla o Carrossel de Roupas em Destaque (`roupasCarrossel`), que troca de
+ *   roupa automaticamente a cada 3,8 segundos sem mostrar preço.
+ *
+ * 📍 ONDE OS OUTROS INTEGRANTES TAMBÉM APARECEM AQUI:
+ * - RAFAEL (Linha 89): `sacolaService = inject(SacolaService)` (contador da sacola).
+ * - GAGO (Linhas 57 e 59): `UpperCasePipe` e `TraduzirCategoriaPipe`.
+ * - NETO (Linhas 61 e 62): `DestaqueCardDirective` e `BadgePromoDirective`.
  * ============================================================================
  */
 
@@ -47,9 +47,6 @@ import { DestaqueCardDirective } from '../directives/destaque-card.directive';
 import { TraduzirCategoriaPipe } from '../pipes/traduzir-categoria.pipe';
 import { SacolaService } from '../services/sacola.service';
 
-/**
- * Interface para os Destaques da Semana e Itens do Carrossel da Home.
- */
 export interface RoupaDestaqueHome {
   id: number;
   nome: string;
@@ -67,14 +64,13 @@ export interface RoupaDestaqueHome {
   standalone: true,
   imports: [
     RouterLink,
-    // Pipe Built-in (Integrante 4 - Requisito 3)
+    // [GAGO - Requisito 3]: Pipe Built-in nativa + Pipe Personalizada
     UpperCasePipe,
-    // Pipe Personalizada (Integrante 4 - Requisito 3)
     TraduzirCategoriaPipe,
-    // Diretivas Personalizadas (Integrante 5 - Requisito 5)
+    // [NETO - Requisito 5]: 2 Diretivas Personalizadas
     DestaqueCardDirective,
     BadgePromoDirective,
-    // Componentes de UI do Ionic (Integrante 1 - Requisito 1)
+    // [MENINO MAL - Requisito 1]: Componentes visuais do Ionic
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -96,19 +92,12 @@ export interface RoupaDestaqueHome {
   ],
 })
 export class HomePage implements OnInit, OnDestroy {
-  /**
-   * Injeção do SacolaService (Integrante 3 - Requisito 4)
-   */
+  // [RAFAEL - Requisito 4]: 2º Service para mostrar quantos itens tem na sacola
   public readonly sacolaService = inject(SacolaService);
 
-  /**
-   * ChangeDetectorRef garante atualização instantânea do carrossel automático.
-   */
   private readonly cdr = inject(ChangeDetectorRef);
 
-  /**
-   * 1. PRODUTOS EM DESTAQUE DA SEMANA (Exibidos no topo da Home)
-   */
+  // [MENINO MAL - Requisito 1]: Produtos em Destaque da Semana no topo da Home
   public readonly destaquesDaSemana: RoupaDestaqueHome[] = [
     {
       id: 2,
@@ -132,9 +121,7 @@ export class HomePage implements OnInit, OnDestroy {
     },
   ];
 
-  /**
-   * 2. ESCOLHA SUA LINHA (Público-alvo: Moda Masculina ou Moda Feminina)
-   */
+  // [MENINO MAL - Requisito 1]: Opções "Escolha sua Linha" (Público Masculino e Feminino)
   public readonly categoriasVitrine = [
     {
       chaveApi: "men's clothing",
@@ -152,9 +139,7 @@ export class HomePage implements OnInit, OnDestroy {
     },
   ];
 
-  /**
-   * 3. ITENS DO CARROSSEL DE ROUPAS EM DESTAQUE (Sem preço, mudando apenas as roupas)
-   */
+  // [MENINO MAL - Requisito 1]: Lista de roupas do Carrossel (muda a roupa sem mostrar preço)
   public readonly roupasCarrossel: RoupaDestaqueHome[] = [
     {
       id: 2,
@@ -204,9 +189,6 @@ export class HomePage implements OnInit, OnDestroy {
     },
   ];
 
-  /**
-   * Índice atual do slide exibido no carrossel de roupas.
-   */
   public indiceCarrossel: number = 0;
 
   private temporizadorCarrossel: ReturnType<typeof setInterval> | null = null;
@@ -219,32 +201,20 @@ export class HomePage implements OnInit, OnDestroy {
     this.pararRotacaoCarrossel();
   }
 
-  /**
-   * Retorna a roupa atualmente em foco no carrossel.
-   */
   get roupaAtualCarrossel(): RoupaDestaqueHome {
     return this.roupasCarrossel[this.indiceCarrossel];
   }
 
-  /**
-   * Avança para a próxima roupa do carrossel.
-   */
   proximoSlide(): void {
     this.indiceCarrossel = (this.indiceCarrossel + 1) % this.roupasCarrossel.length;
     this.cdr.detectChanges();
   }
 
-  /**
-   * Volta para a roupa anterior do carrossel.
-   */
   slideAnterior(): void {
     this.indiceCarrossel = (this.indiceCarrossel - 1 + this.roupasCarrossel.length) % this.roupasCarrossel.length;
     this.cdr.detectChanges();
   }
 
-  /**
-   * Permite clicar diretamente em uma bolinha indicadora do carrossel.
-   */
   irParaSlide(indice: number): void {
     this.indiceCarrossel = indice;
     this.reiniciarTemporizador();

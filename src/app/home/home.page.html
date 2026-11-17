@@ -1,20 +1,14 @@
 <!--
   ============================================================================
-  MAPA DO TEMPLATE: src/app/home/home.page.html (Página 1 — Vitrine Streetwear)
+  👤 PARTE PRINCIPAL DO MENINO MAL — TEMPLATE DA HOME (src/app/home/home.page.html)
   ============================================================================
-  ONDE ENCONTRAR CADA REQUISITO NESTE ARQUIVO:
-  • INTEGRANTE 1 (Requisito 1 - 4 Páginas e UI/UX):
-    - Barra superior `<ion-header>`, seção "Produtos em Destaque da Semana"
-      ("T-SHIRT Menino Malino" e "Calça Agredindo a Moda"), seção "Escolha sua Linha"
-      e o Carrossel Lookbook mudando as roupas em destaque sem exibir preços.
-  • INTEGRANTE 3 (Requisito 6 Extra - Parâmetro por Rota):
-    - `[routerLink]="['/detalhes', destaque.id]"` permitindo abrir os detalhes da peça.
-  • INTEGRANTE 4 (Requisito 3 - Pipes):
-    - Uso da Pipe Personalizada `traduzirCategoria` e da Pipe Built-in `uppercase`.
-  • INTEGRANTE 5 (Requisito 5 - Diretivas Personalizadas e `@if` / `@for`):
-    - Diretiva Estrutural `@if` no badge da sacola.
-    - Diretiva Estrutural `@for` nos Destaques da Semana, nas Linhas e nos indicadores do Carrossel.
-    - Diretivas Personalizadas `appDestaqueCard` e `appBadgePromo`.
+  📍 ONDE CADA UM DOS 5 INTEGRANTES APARECE NESTE HTML:
+  • MENINO MAL (Requisito 1): Estrutura da 1ª página (`<ion-header>`, Destaques da
+    Semana, Escolha sua Linha e Carrossel de Roupas em Destaque sem preço).
+  • RAFAEL (Requisito 4 e 6): Contador da sacola `sacolaService.obterQuantidadeTotal()`
+    e o clique `[routerLink]="['/detalhes', peca.id]"` que passa o ID pela rota.
+  • GAGO (Requisito 3): Uso das Pipes `traduzirCategoria` e `uppercase`.
+  • NETO (Requisito 5): Uso de `@if`, `@for`, `appDestaqueCard` e `appBadgePromo`.
   ============================================================================
 -->
 
@@ -32,7 +26,7 @@
       </div>
     </ion-title>
 
-    <!-- Navegação entre as páginas (Integrante 1 - Requisito 1) -->
+    <!-- [MENINO MAL - Requisito 1]: Botões de navegação para as outras páginas -->
     <ion-buttons slot="end" class="nav-botoes">
       <ion-button routerLink="/home" fill="solid" color="secondary" size="small">
         <ion-icon slot="start" name="home-outline"></ion-icon>
@@ -47,7 +41,7 @@
       <ion-button routerLink="/sacola" color="light" size="small">
         <ion-icon slot="start" name="bag-handle-outline"></ion-icon>
         Sacola
-        <!-- DIRETIVA ESTRUTURAL @if (Integrante 5 - Requisito 5) -->
+        <!-- [NETO - Requisito 5]: Diretiva estrutural @if + [RAFAEL]: SacolaService -->
         @if (sacolaService.obterQuantidadeTotal() > 0) {
         <ion-badge color="success" class="badge-topo"> {{ sacolaService.obterQuantidadeTotal() }} </ion-badge>
         }
@@ -59,15 +53,12 @@
 <ion-content [fullscreen]="true">
   <div class="container-loja">
     <!-- ================================================================== -->
-    <!-- 1. HERO + PRODUTOS EM DESTAQUE DA SEMANA                           -->
+    <!-- [MENINO MAL]: 1. PRODUTOS EM DESTAQUE DA SEMANA                    -->
     <!-- ================================================================== -->
     <section class="hero-streetwear">
       <div class="hero-cabecalho">
         <div>
-          <!--
-            DIRETIVA PERSONALIZADA 2: appBadgePromo (Integrante 5 - Requisito 5)
-            PIPE BUILT-IN: uppercase (Integrante 4 - Requisito 3)
-          -->
+          <!-- [NETO]: Diretiva appBadgePromo | [GAGO]: Pipe uppercase -->
           <span appBadgePromo> {{ 'Lançamentos Exclusivos // 10% OFF no PIX' | uppercase }} </span>
 
           <h1 class="titulo-urbano">PRODUTOS EM DESTAQUE <span class="destaque-vermelho">DA SEMANA</span></h1>
@@ -86,10 +77,10 @@
       <!-- Grade dos 2 Produtos em Destaque da Semana (T-SHIRT Menino Malino & Calça Agredindo a Moda) -->
       <ion-grid class="grid-destaques-semana">
         <ion-row>
-          <!-- DIRETIVA ESTRUTURAL @for (Integrante 5 - Requisito 5) -->
+          <!-- [NETO - Requisito 5]: Diretiva estrutural @for -->
           @for (peca of destaquesDaSemana; track peca.id) {
           <ion-col size="12" sizeMd="6">
-            <!-- DIRETIVA PERSONALIZADA 1: appDestaqueCard (Integrante 5 - Requisito 5) -->
+            <!-- [NETO]: appDestaqueCard | [RAFAEL]: Passagem de parâmetro :id por rota -->
             <ion-card appDestaqueCard [routerLink]="['/detalhes', peca.id]" class="card-destaque-semana">
               <div class="layout-destaque">
                 <div class="foto-destaque">
@@ -120,7 +111,7 @@
     </section>
 
     <!-- ================================================================== -->
-    <!-- 2. ESCOLHA SUA LINHA (MODA MASCULINA OU MODA FEMININA)             -->
+    <!-- [MENINO MAL]: 2. ESCOLHA SUA LINHA (MODA MASCULINA OU FEMININA)    -->
     <!-- ================================================================== -->
     <div class="secao-titulo">
       <div>
@@ -132,10 +123,10 @@
 
     <ion-grid>
       <ion-row>
-        <!-- DIRETIVA ESTRUTURAL @for (Integrante 5 - Requisito 5) -->
+        <!-- [NETO - Requisito 5]: Diretiva estrutural @for -->
         @for (cat of categoriasVitrine; track cat.chaveApi) {
         <ion-col size="12" sizeMd="6">
-          <!-- DIRETIVA PERSONALIZADA 1: appDestaqueCard (Integrante 5 - Requisito 5) -->
+          <!-- [NETO - Requisito 5]: Diretiva personalizada appDestaqueCard -->
           <ion-card appDestaqueCard routerLink="/catalogo" [queryParams]="{ linha: cat.filtro }" class="card-colecao">
             <ion-card-header>
               <div class="colecao-topo">
@@ -148,10 +139,7 @@
               </div>
 
               <ion-card-subtitle class="subtitulo-colecao">
-                <!--
-                    PIPE PERSONALIZADA 1: traduzirCategoria (Integrante 4 - Requisito 3)
-                    PIPE BUILT-IN: uppercase (Integrante 4 - Requisito 3)
-                  -->
+                <!-- [GAGO - Requisito 3]: Pipe personalizada traduzirCategoria + Pipe nativa uppercase -->
                 {{ cat.chaveApi | traduzirCategoria | uppercase }}
               </ion-card-subtitle>
 
@@ -172,7 +160,7 @@
     </ion-grid>
 
     <!-- ================================================================== -->
-    <!-- 3. CARROSSEL DE ROUPAS EM DESTAQUE (SEM PREÇO, MUDANDO AS ROUPAS)  -->
+    <!-- [MENINO MAL]: 3. CARROSSEL DE ROUPAS EM DESTAQUE (SEM PREÇO)       -->
     <!-- ================================================================== -->
     <div class="secao-titulo">
       <div>
@@ -184,12 +172,10 @@
 
     <ion-card appDestaqueCard class="carrossel-container">
       <div class="carrossel-grid">
-        <!-- Botão Anterior -->
         <button type="button" class="btn-seta Esquerda" (click)="slideAnterior()" aria-label="Roupa anterior">
           <ion-icon name="chevron-back-outline"></ion-icon>
         </button>
 
-        <!-- Moldura da Imagem da Roupa Atual -->
         <div class="carrossel-vitrine-foto" [routerLink]="['/detalhes', roupaAtualCarrossel.id]">
           <img [src]="roupaAtualCarrossel.imagem" [alt]="roupaAtualCarrossel.nome" />
         </div>
@@ -216,7 +202,7 @@
             </ion-button>
           </div>
 
-          <!-- Indicadores (Bolinhas) do Carrossel usando @for -->
+          <!-- [NETO - Requisito 5]: Indicadores do Carrossel usando @for -->
           <div class="carrossel-indicadores">
             @for (item of roupasCarrossel; track item.id; let i = $index) {
             <button
@@ -230,7 +216,6 @@
           </div>
         </div>
 
-        <!-- Botão Próximo -->
         <button type="button" class="btn-seta Direita" (click)="proximoSlide()" aria-label="Próxima roupa">
           <ion-icon name="chevron-forward-outline"></ion-icon>
         </button>

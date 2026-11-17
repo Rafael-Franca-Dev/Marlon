@@ -1,17 +1,19 @@
 /**
  * ============================================================================
- * ARQUIVO PRINCIPAL DE INICIALIZAÇÃO (main.ts)
+ * 👤 PARTE DO THIAGO (Configuração do HttpClient) e MENINO MAL (Inicialização)
+ * ARQUIVO: src/main.ts
  * ============================================================================
- * O QUE FAZ NO PROJETO:
- * Inicializa a aplicação Angular no modo Standalone (obrigatório pelos requisitos)
- * e registra os provedores globais de rotas, componentes do Ionic e o cliente HTTP.
+ * O QUE ESTE ARQUIVO FAZ DE FORMA SIMPLES:
+ * É o arquivo que "liga" o aplicativo em modo Angular Standalone (sem módulos
+ * antigos) e ativa o `provideHttpClient()` para que o Service do THIAGO consiga
+ * buscar as roupas na internet (Fake Store API).
  *
- * REQUISITOS ATENDIDOS AQUI:
- * - Uso obrigatório de Ionic com Angular Standalone (bootstrapApplication).
- * - Configuração do provideHttpClient() para permitir que o RoupasService (Requisito 4)
- *   consuma a Fake Store API (Requisito 2).
- * - Registro do idioma 'pt-BR' para que a Pipe Built-in CurrencyPipe (Requisito 3)
- *   exiba os valores corretamente no padrão brasileiro (R$ 00,00).
+ * 📍 ONDE CADA UM DEVE OLHAR AQUI:
+ * - THIAGO (Linha 48): `provideHttpClient()` -> Sem essa linha, o Angular não
+ *   consegue fazer requisições GET para a API no `roupas.service.ts`.
+ * - GAGO (Linha 34 e 42): Configura o idioma `'pt-BR'` para que a Pipe `currency:'BRL'`
+ *   mostre o símbolo `R$` certinho nos preços.
+ * - MENINO MAL (Linha 51): `provideRouter(routes)` -> Conecta as 4 páginas do site.
  * ============================================================================
  */
 
@@ -32,24 +34,23 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 
-// Registra os dados de formatação regional do Brasil (pt-BR) para moedas e números
+// [GAGO - Requisito 3]: Ativa a formatação brasileira (R$ e vírgula nos centavos)
 registerLocaleData(localePt, 'pt-BR');
 
 bootstrapApplication(AppComponent, {
   providers: [
-    // Estratégia de reutilização de rotas nativa do Ionic para transições suaves entre telas
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
 
-    // Define o idioma padrão como Português do Brasil para as Pipes Built-in (ex: currency:'BRL')
+    // [GAGO - Requisito 3]: Define Português do Brasil como padrão para as Pipes
     { provide: LOCALE_ID, useValue: 'pt-BR' },
 
-    // Inicializa os Web Components e estilos do Ionic Framework
+    // [MENINO MAL - Requisito 1]: Ativa os componentes visuais do Ionic
     provideIonicAngular(),
 
-    // Habilita o serviço HttpClient em toda a aplicação (necessário para o Requisito 2 e 4)
+    // [THIAGO - Requisito 2 e 4]: Habilita o HttpClient para consumir a Fake Store API
     provideHttpClient(),
 
-    // Registra as 4 rotas de páginas da aplicação (Requisito 1 e Requisito 6 - Ponto Extra)
+    // [MENINO MAL - Requisito 1 / RAFAEL - Requisito 6]: Ativa as rotas das 4 páginas
     provideRouter(routes, withPreloading(PreloadAllModules), withComponentInputBinding()),
   ],
 });

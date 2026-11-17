@@ -1,30 +1,28 @@
 /**
  * ============================================================================
- * GUIA DE ESTUDO DO CÓDIGO — PÁGINA 3: DetalhesPage (Detalhes da Peça)
- * ARQUIVO: src/app/pages/detalhes/detalhes.page.ts
+ * 👤 PÁGINA 3: DETALHES DA PEÇA (src/app/pages/detalhes/detalhes.page.ts)
  * ============================================================================
- * ONDE CADA INTEGRANTE DEVE PROCURAR SEU REQUISITO NESTE ARQUIVO:
+ * 📍 ONDE CADA UM DOS 5 INTEGRANTES DEVE MOSTRAR SEU REQUISITO NESTE ARQUIVO:
  *
- * • INTEGRANTE 3 (Requisito 6 Extra — Parâmetro por Rota & Requisito 4 — SacolaService):
- *   - Injeção do `ActivatedRoute` (`private readonly route = inject(ActivatedRoute)`).
- *   - Captura do parâmetro `:id` enviado pela URL (`this.route.snapshot.paramMap.get('id')`).
- *   - Método `adicionarPecaNaSacola()` que usa o `SacolaService`.
+ * • RAFAEL (Requisito 6 Extra — Parâmetro por Rota & Requisito 4 — SacolaService):
+ *   - Linha 86: `private readonly route = inject(ActivatedRoute)` (lê a URL).
+ *   - Linha 110: `const idParametro = Number(params.get('id'))` -> Pega o ID que
+ *     veio da página anterior (ex: `/detalhes/2`).
+ *   - Linha 142: `adicionarPecaNaSacola()` -> Usa o `SacolaService` para salvar a peça.
  *
- * • INTEGRANTE 2 (Requisito 2 — 3º Método GET da API & Requisito 4 — RoupasService):
- *   - Injeção do `RoupasService`.
- *   - Método `carregarDetalhesDaRoupa(id)` que executa o 3º método GET
- *     da Fake Store API (`this.roupasService.getRoupaPorId(id)`).
+ * • THIAGO (Requisito 2 — 3º Método GET da API):
+ *   - Linha 122: `this.roupasService.getRoupaPorId(id)` -> É o 3º método GET da
+ *     API que busca os detalhes apenas daquela roupa escolhida.
  *
- * • INTEGRANTE 1 (Requisito 1 — 4 Páginas e UI/UX):
- *   - Decorator `@Component` da 3ª Página (`DetalhesPage`, standalone: true).
+ * • MENINO MAL (Requisito 1 — As 4 Páginas):
+ *   - Linha 47: `@Component` da 3ª Página (`DetalhesPage`).
  *
- * • INTEGRANTE 4 (Requisito 3 — 4 Pipes):
- *   - Importação das 2 Pipes Built-in (`CurrencyPipe`, `UpperCasePipe`)
- *     e das 2 Pipes Personalizadas (`TraduzirCategoriaPipe`, `DescontoPixPipe`).
+ * • GAGO (Requisito 3 — As 4 Pipes):
+ *   - Linhas 54 a 59: Importa `CurrencyPipe`, `UpperCasePipe`, `TraduzirCategoriaPipe`, `DescontoPixPipe`.
  *
- * • INTEGRANTE 5 (Requisito 5 — Diretivas Personalizadas e `@if` / `@for`):
- *   - Importação de `DestaqueCardDirective` e `BadgePromoDirective`.
- *   - Array `tamanhosDisponiveis = ['P', 'M', 'G', 'GG']` percorrido com `@for`.
+ * • NETO (Requisito 5 — Diretivas Personalizadas + `@if` e `@for`):
+ *   - Linhas 61 e 62: Importa `DestaqueCardDirective` e `BadgePromoDirective`.
+ *   - Linha 102: Lista `tamanhosDisponiveis = ['P', 'M', 'G', 'GG']` usada no `@for`.
  * ============================================================================
  */
 
@@ -68,16 +66,15 @@ import { SacolaService } from '../../services/sacola.service';
   standalone: true,
   imports: [
     RouterLink,
-    // 2 Pipes Built-in nativas do Angular (Integrante 4 - Requisito 3)
+    // [GAGO - Requisito 3]: 2 Pipes Built-in nativas + 2 Pipes Personalizadas
     CurrencyPipe,
     UpperCasePipe,
-    // 2 Pipes Personalizadas (Integrante 4 - Requisito 3)
     TraduzirCategoriaPipe,
     DescontoPixPipe,
-    // 2 Diretivas Personalizadas (Integrante 5 - Requisito 5)
+    // [NETO - Requisito 5]: 2 Diretivas Personalizadas
     DestaqueCardDirective,
     BadgePromoDirective,
-    // Componentes do Ionic (Integrante 1 - Requisito 1)
+    // [MENINO MAL - Requisito 1]: Componentes do Ionic
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -99,51 +96,42 @@ import { SacolaService } from '../../services/sacola.service';
   ],
 })
 export class DetalhesPage implements OnInit {
-  /**
-   * ActivatedRoute lê o parâmetro `:id` enviado pela rota (Integrante 3 - Requisito 6 Extra).
-   */
+  // [RAFAEL - Requisito 6 Extra]: ActivatedRoute captura o parâmetro :id da URL
   private readonly route = inject(ActivatedRoute);
 
-  /**
-   * Injeção dos 2 Services obrigatórios (Integrante 2 e Integrante 3 - Requisito 4).
-   */
+  // [THIAGO - Requisito 4]: 1º Service (HttpClient)
   private readonly roupasService = inject(RoupasService);
+
+  // [RAFAEL - Requisito 4]: 2º Service (Sacola de Compras)
   public readonly sacolaService = inject(SacolaService);
 
-  /**
-   * ChangeDetectorRef atualiza a visualização imediatamente quando os dados da API chegam.
-   */
   private readonly cdr = inject(ChangeDetectorRef);
 
-  /**
-   * Guarda a peça de roupa retornada pelo MÉTODO GET 3 da API.
-   */
   public roupaSelecionada: ProdutoRoupa | null = null;
 
   public idRotaRecebido: number = 0;
 
-  /**
-   * Grade de tamanhos para demonstrar a diretiva `@for` (Integrante 5).
-   */
+  // [NETO - Requisito 5]: Array de tamanhos percorrido com @for no HTML
   public readonly tamanhosDisponiveis: string[] = ['P', 'M', 'G', 'GG'];
   public tamanhoEscolhido: string = 'M';
 
+  // [NETO - Requisito 5]: Variável controlada pelo @if para mostrar "Estamos separando no estoque..."
   public carregando: boolean = true;
   public feedbackAdicionado: boolean = false;
 
   ngOnInit(): void {
-    // PASSO 1 (Integrante 3 - Ponto Extra): Captura o parâmetro `:id` da URL (`/detalhes/:id`)
+    // [RAFAEL - Requisito 6 Extra]: Lê o parâmetro :id passado pela rota
     this.route.paramMap.subscribe((params) => {
       const idParametro = Number(params.get('id'));
       this.idRotaRecebido = idParametro || 2;
 
-      // PASSO 2 (Integrante 2 - Método GET 3): Busca os detalhes desta peça na Fake Store API
+      // [THIAGO - Requisito 2]: Chama o 3º método GET da API usando esse ID
       this.carregarDetalhesDaRoupa(this.idRotaRecebido);
     });
   }
 
   /**
-   * Chama o 3º método GET do RoupasService (`GET /products/:id`).
+   * [THIAGO - MÉTODO GET 3]: Busca na Fake Store API apenas a roupa com este ID
    */
   carregarDetalhesDaRoupa(id: number): void {
     this.carregando = true;
@@ -170,7 +158,7 @@ export class DetalhesPage implements OnInit {
   }
 
   /**
-   * Adiciona a peça atual na Sacola de Compras usando o `SacolaService` (Integrante 3).
+   * [RAFAEL - Requisito 4]: Adiciona a peça na Sacola de Compras (2º Service)
    */
   adicionarPecaNaSacola(): void {
     if (!this.roupaSelecionada) {

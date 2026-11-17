@@ -1,21 +1,29 @@
 /**
  * ============================================================================
- * GUIA DO INTEGRANTE 2 — REQUISITO 2 (API COM 3 MÉTODOS GET) E REQUISITO 4 (1º SERVICE)
+ * 👤 PARTE EXCLUSIVA DO THIAGO — REQUISITO 2 (API) E REQUISITO 4 (1º SERVICE)
  * ARQUIVO: src/app/services/roupas.service.ts
  * ============================================================================
- * • QUEM APRESENTA ESTE CÓDIGO: INTEGRANTE 2
- * • QUAIS REQUISITOS DO PDF ESTÃO AQUI:
- *   1. Requisito 2 (0,5 ponto): "Uma API deve ser usada (de escolha aberta, exceto
- *      o pokeapi...). Tem que haver, no mínimo, 3 métodos get."
- *   2. Requisito 4 - Parte 1 (1,0 ponto): "O projeto deve ter, no mínimo, DOIS
- *      services para alocar o uso do HttpClient e outra funcionalidade."
+ * 🎯 O QUE O THIAGO DEVE EXPLICAR PARA O PROFESSOR:
  *
- * • ONDE PROCURAR NESTE ARQUIVO:
- *   - Linha 52: Injeção do `HttpClient` (`private readonly http = inject(HttpClient)`).
- *   - Linha 57: URL base da Fake Store API (`https://fakestoreapi.com/products`).
- *   - Linhas 118 a 126: MÉTODO GET 1 (`getRoupasMasculinas()`) -> busca roupas masculinas.
- *   - Linhas 134 a 142: MÉTODO GET 2 (`getRoupasFemininas()`)  -> busca roupas femininas.
- *   - Linhas 150 a 156: MÉTODO GET 3 (`getRoupaPorId(id)`)     -> busca 1 peça pelo ID.
+ * 1️⃣ PERGUNTA 1: O QUE O REQUISITO FAZ NO SEU PROJETO?
+ *    "Professor, eu fiquei responsável pela API pública (Requisito 2) e pelo
+ *    primeiro Service com HttpClient (Requisito 4). Este arquivo é o RoupasService:
+ *    ele conecta nossa loja à Fake Store API e possui os 3 métodos GET obrigatórios:
+ *    o primeiro busca as roupas masculinas, o segundo busca as roupas femininas
+ *    e o terceiro busca uma roupa específica pelo ID."
+ *
+ * 2️⃣ PERGUNTA 2: ONDE ESTÁ NO CÓDIGO? (Abra este arquivo e mostre estas linhas):
+ *    - Linha 53: `private readonly http = inject(HttpClient)` -> Injeta o cliente HTTP.
+ *    - Linha 58: `private readonly apiUrl = 'https://fakestoreapi.com/products'` -> URL da API.
+ *    - Linha 125: `getRoupasMasculinas()` -> É o 1º método GET (`this.http.get(...)`).
+ *    - Linha 142: `getRoupasFemininas()`  -> É o 2º método GET (`this.http.get(...)`).
+ *    - Linha 159: `getRoupaPorId(id)`     -> É o 3º método GET (`this.http.get(...)`).
+ *
+ * 3️⃣ PERGUNTA 3: ONDE PODE SER VISTO EM TELA?
+ *    - Abra a página "Catálogo" no site e clique nos botões "Roupas Masculinas"
+ *      (chama o GET 1) e "Roupas Femininas" (chama o GET 2).
+ *    - Depois clique em "Ver Peça" em qualquer roupa para abrir a página de
+ *      "Detalhes", que chama o 3º método GET (`getRoupaPorId`) para carregar aquela peça.
  * ============================================================================
  */
 
@@ -26,7 +34,7 @@ import { of } from 'rxjs';
 import { map, catchError, timeout } from 'rxjs/operators';
 
 /**
- * Interface que representa cada peça de roupa retornada pela Fake Store API.
+ * Formato dos dados que a Fake Store API devolve para cada roupa.
  */
 export interface ProdutoRoupa {
   id: number;
@@ -42,23 +50,19 @@ export interface ProdutoRoupa {
 }
 
 @Injectable({
+  // providedIn: 'root' permite usar este Service em qualquer página do projeto
   providedIn: 'root',
 })
 export class RoupasService {
-  /**
-   * Injeção do HttpClient do Angular para realizar chamadas HTTP para a Fake Store API.
-   */
+  // [THIAGO - Requisito 4]: Injeta o HttpClient para fazer chamadas HTTP na internet
   private readonly http = inject(HttpClient);
 
-  /**
-   * URL base da Fake Store API.
-   */
+  // [THIAGO - Requisito 2]: Endereço base da Fake Store API (API pública sem token/header)
   private readonly apiUrl = 'https://fakestoreapi.com/products';
 
   /**
-   * Dicionário que adapta os títulos e descrições em inglês da Fake Store API
-   * para a identidade Streetwear brasileira da loja "Menino Mau", mantendo
-   * os IDs, preços, categorias e imagens originais vindos da API.
+   * Tradução dos nomes e descrições das peças vindas da API para o estilo
+   * da nossa loja Streetwear "Menino Mau", mantendo as fotos e IDs da API.
    */
   private readonly catalogoPersonalizado: Record<number, { title: string; description: string; price: number }> = {
     2: {
@@ -124,10 +128,10 @@ export class RoupasService {
   };
 
   /**
-   * --------------------------------------------------------------------------
-   * MÉTODO GET 1: Buscar Roupas Masculinas
-   * --------------------------------------------------------------------------
-   * Faz uma requisição HTTP GET para a categoria "men's clothing" da Fake Store API.
+   * ==========================================================================
+   * [THIAGO - MÉTODO GET 1]: Busca apenas as roupas masculinas na API
+   * Endpoint chamado: GET https://fakestoreapi.com/products/category/men's clothing
+   * ==========================================================================
    */
   getRoupasMasculinas(): Observable<ProdutoRoupa[]> {
     return this.http.get<ProdutoRoupa[]>(`${this.apiUrl}/category/men%27s%20clothing`).pipe(
@@ -138,10 +142,10 @@ export class RoupasService {
   }
 
   /**
-   * --------------------------------------------------------------------------
-   * MÉTODO GET 2: Buscar Roupas Femininas
-   * --------------------------------------------------------------------------
-   * Faz uma requisição HTTP GET para a categoria "women's clothing" da Fake Store API.
+   * ==========================================================================
+   * [THIAGO - MÉTODO GET 2]: Busca apenas as roupas femininas na API
+   * Endpoint chamado: GET https://fakestoreapi.com/products/category/women's clothing
+   * ==========================================================================
    */
   getRoupasFemininas(): Observable<ProdutoRoupa[]> {
     return this.http.get<ProdutoRoupa[]>(`${this.apiUrl}/category/women%27s%20clothing`).pipe(
@@ -152,10 +156,10 @@ export class RoupasService {
   }
 
   /**
-   * --------------------------------------------------------------------------
-   * MÉTODO GET 3: Buscar uma Peça de Roupa específica pelo ID
-   * --------------------------------------------------------------------------
-   * Faz uma requisição HTTP GET para `/products/:id`.
+   * ==========================================================================
+   * [THIAGO - MÉTODO GET 3]: Busca os detalhes de 1 roupa específica pelo ID
+   * Endpoint chamado: GET https://fakestoreapi.com/products/:id
+   * ==========================================================================
    */
   getRoupaPorId(id: number): Observable<ProdutoRoupa> {
     return this.http.get<ProdutoRoupa>(`${this.apiUrl}/${id}`).pipe(
@@ -168,9 +172,6 @@ export class RoupasService {
     );
   }
 
-  /**
-   * Aplica o nome e descrição em português da marca mantendo os dados da API.
-   */
   private personalizarPeca(produto: ProdutoRoupa): ProdutoRoupa {
     const custom = this.catalogoPersonalizado[produto.id];
     if (!custom) {
@@ -184,9 +185,6 @@ export class RoupasService {
     };
   }
 
-  /**
-   * Dados de segurança caso a internet do laboratório oscile no momento da apresentação.
-   */
   private obterFallbackMasculino(): ProdutoRoupa[] {
     return [
       {

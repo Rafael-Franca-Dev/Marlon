@@ -1,62 +1,60 @@
 /**
  * ============================================================================
- * GUIA DO INTEGRANTE 1 (REQUISITO 1) E INTEGRANTE 3 (REQUISITO 6 - PONTO EXTRA)
- * ARQUIVO: src/app/app.routes.ts (Configuração das Rotas das 4 Páginas)
+ * 👤 PARTE DO MENINO MAL (REQUISITO 1) E DO RAFAEL (REQUISITO 6 - PONTO EXTRA)
+ * ARQUIVO: src/app/app.routes.ts (Rotas das 4 Páginas do Aplicativo)
  * ============================================================================
- * • QUEM APRESENTA ESTE CÓDIGO:
- *   - INTEGRANTE 1: Explica o Requisito 1 ("no mínimo, 3 pages além do Home").
- *   - INTEGRANTE 3: Explica a linha 39 (`path: 'detalhes/:id'`) que atende ao
- *     Requisito 6 (Pontuação Extra: passar parâmetro por rota).
+ * 🎯 O QUE O MENINO MAL DEVE EXPLICAR PARA O PROFESSOR:
  *
- * • ONDE PROCURAR NESTE ARQUIVO:
- *   - Linhas 27 a 30: Rota `home` (Página 1 — Vitrine Streetwear e Equipe).
- *   - Linhas 33 a 37: Rota `catalogo` (Página 2 — Lista de Roupas da API).
- *   - Linhas 40 a 44: Rota `detalhes/:id` (Página 3 + Ponto Extra com parâmetro `:id`).
- *   - Linhas 47 a 51: Rota `sacola` (Página 4 — Sacola de Compras).
+ * 1️⃣ PERGUNTA 1: O QUE O REQUISITO FAZ NO SEU PROJETO?
+ *    "Professor, eu fiquei com o Requisito 1, que pede no mínimo 3 páginas além
+ *    da Home (totalizando 4 páginas) e toda a estilização visual da loja.
+ *    Nossa loja tem 4 páginas completas em Angular Standalone:
+ *    1. `home` (Vitrine com Destaques da Semana, Escolha sua Linha e Carrossel)
+ *    2. `catalogo` (Lista de roupas masculinas e femininas)
+ *    3. `detalhes/:id` (Visualização detalhada da roupa escolhida)
+ *    4. `sacola` (Sacola de compras para fechar o pedido)"
  *
- * • COMO O INTEGRANTE 1 RESPONDE ÀS 3 PERGUNTAS DO PROFESSOR:
- *   1. O que o requisito faz no seu projeto?
- *      Define as 4 páginas independentes do aplicativo mobile em Angular Standalone
- *      (`home`, `catalogo`, `detalhes/:id` e `sacola`), permitindo navegar sem
- *      recarregar o navegador.
- *   2. Onde está no código?
- *      Neste arquivo (`src/app/app.routes.ts`) e nas pastas `src/app/home/` e
- *      `src/app/pages/` (`catalogo`, `detalhes`, `sacola`).
- *   3. Onde pode ser visto em tela?
- *      Clicando nos botões do menu superior ("Início", "Catálogo", "Sacola") e
- *      nos cards de roupas que abrem a página de "Detalhes".
+ * 2️⃣ PERGUNTA 2: ONDE ESTÁ NO CÓDIGO?
+ *    - Aqui em `src/app/app.routes.ts` (linhas 33 a 62), onde cada rota carrega
+ *      sua página com `loadComponent`.
+ *    - E nas pastas das 4 páginas: `src/app/home/` e `src/app/pages/` (`catalogo`,
+ *      `detalhes`, `sacola`), estilizadas em `src/global.scss` e `src/theme/variables.scss`.
+ *
+ * 3️⃣ PERGUNTA 3: ONDE PODE SER VISTO EM TELA?
+ *    - Clicando nos botões do menu superior ("Início", "Catálogo", "Sacola") e
+ *      clicando em uma roupa para abrir a 4ª tela ("Detalhes da Peça").
  * ============================================================================
  */
 
 import type { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  // PÁGINA 1 (Requisito 1 - Integrante 1): Home / Vitrine Streetwear
+  // [MENINO MAL - PÁGINA 1]: Home (Vitrine Streetwear, Destaques e Carrossel)
   {
     path: 'home',
     loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
   },
 
-  // PÁGINA 2 (Requisito 1 - Integrante 1): Catálogo de Roupas da API
+  // [MENINO MAL - PÁGINA 2]: Catálogo de Roupas (Masculinas e Femininas)
   {
     path: 'catalogo',
     loadComponent: () => import('./pages/catalogo/catalogo.page').then((m) => m.CatalogoPage),
   },
 
-  // PÁGINA 3 (Requisito 1 - Integrante 1) + PONTO EXTRA (Requisito 6 - Integrante 3):
-  // Recebe o parâmetro `:id` enviado pela página anterior (`/catalogo`)
+  // [MENINO MAL - PÁGINA 3] + [RAFAEL - REQUISITO 6 PONTO EXTRA]:
+  // Rota `detalhes/:id` que recebe o ID da roupa clicada na página anterior
   {
     path: 'detalhes/:id',
     loadComponent: () => import('./pages/detalhes/detalhes.page').then((m) => m.DetalhesPage),
   },
 
-  // PÁGINA 4 (Requisito 1 - Integrante 1): Sacola de Compras
+  // [MENINO MAL - PÁGINA 4]: Sacola de Compras
   {
     path: 'sacola',
     loadComponent: () => import('./pages/sacola/sacola.page').then((m) => m.SacolaPage),
   },
 
-  // Redirecionamento inicial padrão para a página Home
+  // Quando abre o site, vai direto para a página Home
   {
     path: '',
     redirectTo: 'home',

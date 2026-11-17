@@ -1,12 +1,15 @@
 /**
  * ============================================================================
- * MAPA DO ARQUIVO: src/global.scss (Estilos Globais e UI/UX Streetwear)
+ * 👤 PARTE DO MENINO MAL — ESTILIZAÇÃO GLOBAL E UI/UX STREETWEAR
+ * ARQUIVO: src/global.scss
  * ============================================================================
- * • INTEGRANTE DE REFERÊNCIA: Integrante 1 (Estrutura das 4 Páginas e UI/UX)
- * • O QUE ESTE ARQUIVO FAZ:
- *   Importa as folhas de estilo essenciais do Ionic Framework e define o design
- *   global "Menino Mau" (Preto Profundo #09090b, Cinza Chumbo #18181b, Branco #ffffff
- *   e destaques vibrantes em Vermelho Saturado #ff2a2a e Verde Limão #a3e635).
+ * 🎯 O QUE O MENINO MAL PODE MOSTRAR AQUI:
+ * - O professor exige no PDF: "é obrigatório entregar um site estilizado".
+ * - Aplicamos a identidade Streetwear com:
+ *   • Preto Profundo (#09090b) no fundo geral
+ *   • Cinza Chumbo (#18181b e #27272a) nos cards e barras
+ *   • Branco Puro (#ffffff) nos textos e vitrines das fotos
+ *   • Vermelho Saturado (#ff2a2a) e Verde Limão Neon (#a3e635) nos destaques
  * ============================================================================
  */
 
@@ -53,14 +56,14 @@ body {
   }
 }
 
-/* Cabeçalho com linha de destaque vibrante em vermelho saturado */
+/* Cabeçalho escuro com borda cinza chumbo */
 ion-header ion-toolbar {
   --background: #0d0d11;
   --color: #ffffff;
   border-bottom: 1px solid #27272a;
 }
 
-/* Cards em Cinza Chumbo com acabamento urbano */
+/* Cards em Cinza Chumbo (#18181b) com acabamento urbano */
 ion-card {
   --background: #18181b;
   --color: #ffffff;

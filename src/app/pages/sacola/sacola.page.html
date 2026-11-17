@@ -1,22 +1,17 @@
 <!--
   ============================================================================
-  MAPA DO TEMPLATE: src/app/pages/sacola/sacola.page.html (Página 4 — Sacola)
+  👤 PÁGINA 4: TEMPLATE DA SACOLA (src/app/pages/sacola/sacola.page.html)
   ============================================================================
-  ONDE CADA INTEGRANTE ENCONTRA SEU REQUISITO NESTE HTML:
-  • INTEGRANTE 1 (Requisito 1 — 4 Páginas e UI/UX Streetwear):
-    - Quarta página funcional da aplicação (`/sacola`).
-  • INTEGRANTE 3 (Requisito 4 - Parte 2 — 2º Service `SacolaService`):
-    - Controles de quantidade (`+` / `-`), remoção de item e cálculo do subtotal
-      e total usando os métodos do `SacolaService`.
-    - Clique na miniatura/título levando para `['/detalhes', item.produto.id]` (Ponto Extra).
-  • INTEGRANTE 4 (Requisito 3 — 4 Pipes):
-    - `{{ item.produto.category | traduzirCategoria | uppercase }}`
-    - `{{ item.produto.price | currency:'BRL' }}`
-    - `{{ ... | descontoPix:10 | currency:'BRL' }}`
-  • INTEGRANTE 5 (Requisito 5 — 2 Diretivas Personalizadas + `@if` e `@for`):
-    - Bloco `@if (pedidoConfirmado) { ... } @else if (...) { ... } @else { ... }`
-    - Bloco `@for (item of sacolaService.listarItens(); track item.produto.id)`
-    - Diretivas Personalizadas `appDestaqueCard` e `appBadgePromo`.
+  📍 ONDE CADA UM DOS 5 INTEGRANTES ENCONTRA SUA PARTE AQUI:
+  • MENINO MAL (Requisito 1): Quarta página funcional e estilizada do app (`/sacola`).
+  • RAFAEL (Requisito 4 — 2º Service `SacolaService`):
+    - Botões `+`, `-`, `Remover`, `Esvaziar Sacola`, `Finalizar Compra` e cálculo do total.
+  • GAGO (Requisito 3 — As 4 Pipes):
+    - `traduzirCategoria`, `uppercase`, `currency:'BRL'` e `descontoPix:10`.
+  • NETO (Requisito 5 — Diretivas Personalizadas + `@if` e `@for`):
+    - Linha 52: `@if (pedidoConfirmado) { ... } @else if (sacola vazia) { ... } @else { ... }`
+    - Linha 92: `@for (item of sacolaService.listarItens(); track item.produto.id)`
+    - Diretivas `appDestaqueCard` e `appBadgePromo`.
   ============================================================================
 -->
 
@@ -58,7 +53,7 @@
 <ion-content [fullscreen]="true">
   <div class="container-loja">
     <!-- ================================================================== -->
-    <!-- DIRETIVA ESTRUTURAL 1: @if / @else (Integrante 5 - Requisito 5)    -->
+    <!-- [NETO - Requisito 5]: DIRETIVA ESTRUTURAL 1 (@if / @else)          -->
     <!-- ================================================================== -->
     @if (pedidoConfirmado) {
     <ion-card appDestaqueCard class="card-estado-sacola">
@@ -92,7 +87,6 @@
     } @else {
     <ion-grid>
       <ion-row>
-        <!-- Coluna da Lista de Peças na Sacola -->
         <ion-col size="12" sizeLg="8">
           <div class="cabecalho-sacola">
             <h2 class="titulo-urbano">ITENS NA SACOLA ({{ sacolaService.obterQuantidadeTotal() }})</h2>
@@ -102,15 +96,11 @@
             </ion-button>
           </div>
 
-          <!--
-              DIRETIVA ESTRUTURAL 2: @for (Integrante 5 - Requisito 5)
-              Lista os itens gerenciados pelo SacolaService (Integrante 3).
-            -->
+          <!-- [NETO - Requisito 5]: DIRETIVA ESTRUTURAL 2 (@for) -->
           @for (item of sacolaService.listarItens(); track item.produto.id) {
           <ion-card appDestaqueCard class="card-item-street">
             <ion-card-content>
               <div class="linha-item">
-                <!-- Miniatura em fundo Branco clicável (Ponto Extra: /detalhes/:id) -->
                 <img
                   [src]="item.produto.image"
                   [alt]="item.produto.title"
@@ -120,10 +110,7 @@
 
                 <div class="info-item">
                   <span class="categoria-item">
-                    <!--
-                          • PIPE PERSONALIZADA 1: traduzirCategoria (Integrante 4)
-                          • PIPE BUILT-IN 2: uppercase (Integrante 4)
-                        -->
+                    <!-- [GAGO - Requisito 3]: Pipe traduzirCategoria + Pipe uppercase -->
                     {{ item.produto.category | traduzirCategoria | uppercase }}
                   </span>
 
@@ -132,21 +119,18 @@
                   <div class="precos-item">
                     <span>
                       Unitário:
-                      <!-- PIPE BUILT-IN 1: currency:'BRL' -->
+                      <!-- [GAGO - Requisito 3]: Pipe currency:'BRL' -->
                       <strong>{{ item.produto.price | currency:'BRL' }}</strong>
                     </span>
                     <span class="pix-item">
                       No PIX:
-                      <!--
-                            • PIPE PERSONALIZADA 2: descontoPix:10
-                            • PIPE BUILT-IN 1: currency:'BRL'
-                          -->
+                      <!-- [GAGO - Requisito 3]: Pipe descontoPix:10 + Pipe currency:'BRL' -->
                       <strong>{{ item.produto.price | descontoPix:10 | currency:'BRL' }}</strong>
                     </span>
                   </div>
                 </div>
 
-                <!-- Controles do SacolaService (Integrante 3) -->
+                <!-- [RAFAEL - Requisito 4]: Botões que acionam o SacolaService -->
                 <div class="controles-qtd">
                   <div class="botoes-qtd">
                     <ion-button fill="outline" color="light" size="small" (click)="diminuirItem(item.produto.id)">
@@ -176,7 +160,7 @@
           }
         </ion-col>
 
-        <!-- Coluna do Resumo Financeiro -->
+        <!-- Resumo do Pedido -->
         <ion-col size="12" sizeLg="4">
           <ion-card appDestaqueCard class="card-resumo-street">
             <ion-card-header>
@@ -198,15 +182,12 @@
               <div class="caixa-pix-neon">
                 <div class="topo-pix-resumo">
                   <span>VALOR FINAL NO PIX:</span>
-                  <!-- DIRETIVA PERSONALIZADA 2: appBadgePromo (Integrante 5) -->
+                  <!-- [NETO - Requisito 5]: Diretiva appBadgePromo -->
                   <span appBadgePromo>{{ '10% off pix' | uppercase }}</span>
                 </div>
 
                 <div class="valor-final-pix">
-                  <!--
-                      • PIPE PERSONALIZADA 2: descontoPix:10 (Integrante 4)
-                      • PIPE BUILT-IN 1: currency:'BRL' (Integrante 4)
-                    -->
+                  <!-- [GAGO - Requisito 3]: Pipe descontoPix:10 + Pipe currency:'BRL' -->
                   {{ sacolaService.calcularValorTotal() | descontoPix:10 | currency:'BRL' }}
                 </div>
               </div>

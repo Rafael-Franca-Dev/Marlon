@@ -1,32 +1,31 @@
 /**
  * ============================================================================
- * GUIA DE ESTUDO DO CÓDIGO — PÁGINA 2: CatalogoPage (Lista de Roupas da API)
- * ARQUIVO: src/app/pages/catalogo/catalogo.page.ts
+ * 👤 PÁGINA 2: CATÁLOGO DE ROUPAS (src/app/pages/catalogo/catalogo.page.ts)
  * ============================================================================
- * ONDE CADA INTEGRANTE DEVE PROCURAR SEU REQUISITO NESTE ARQUIVO:
+ * 📍 ONDE CADA UM DOS 5 INTEGRANTES DEVE MOSTRAR SEU REQUISITO NESTE ARQUIVO:
  *
- * • INTEGRANTE 1 (Requisito 1 — 4 Páginas e UI/UX):
- *   - Decorator `@Component` da 2ª Página (`CatalogoPage`, standalone: true).
+ * • MENINO MAL (Requisito 1 — As 4 Páginas):
+ *   - Linha 52: `@Component` da 2ª Página (`CatalogoPage`, standalone: true).
  *
- * • INTEGRANTE 2 (Requisito 2 — API com 3 GETs & Requisito 4 — 1º Service):
- *   - Injeção do 1º Service (`private readonly roupasService = inject(RoupasService)`).
- *   - Método `carregarRoupasPorDepartamento()` que alterna entre:
+ * • THIAGO (Requisito 2 — API com 3 GETs & Requisito 4 — 1º Service):
+ *   - Linha 89: `private readonly roupasService = inject(RoupasService)` (Injeta o 1º Service).
+ *   - Linhas 136 a 161: Método `carregarRoupasPorDepartamento()` que chama:
  *     • MÉTODO GET 1: `this.roupasService.getRoupasMasculinas()`
  *     • MÉTODO GET 2: `this.roupasService.getRoupasFemininas()`
  *
- * • INTEGRANTE 3 (Requisito 4 — 2º Service & Requisito 6 — Parâmetro por Rota):
- *   - Injeção do 2º Service (`public readonly sacolaService = inject(SacolaService)`).
- *   - Método `adicionarNaSacola()` que salva a roupa no `SacolaService`.
- *   - (No HTML desta página está o `[routerLink]="['/detalhes', roupa.id]"` do Ponto Extra).
+ * • RAFAEL (Requisito 4 — 2º Service & Requisito 6 — Parâmetro por Rota):
+ *   - Linha 90: `public readonly sacolaService = inject(SacolaService)` (Injeta o 2º Service).
+ *   - Linha 167: Método `adicionarNaSacola()` que guarda a peça no `SacolaService`.
  *
- * • INTEGRANTE 4 (Requisito 3 — 4 Pipes: 2 Personalizadas + 2 Built-in):
- *   - Importação das 2 Pipes Built-in (`CurrencyPipe`, `UpperCasePipe`).
- *   - Importação das 2 Pipes Personalizadas (`TraduzirCategoriaPipe`, `DescontoPixPipe`).
+ * • GAGO (Requisito 3 — As 4 Pipes):
+ *   - Linhas 58 a 63: Importa as 2 Pipes Built-in (`CurrencyPipe`, `UpperCasePipe`)
+ *     e as 2 Pipes Personalizadas (`TraduzirCategoriaPipe`, `DescontoPixPipe`).
  *
- * • INTEGRANTE 5 (Requisito 5 — 2 Diretivas Personalizadas + `@if` e `@for`):
- *   - Importação das 2 Diretivas Personalizadas (`DestaqueCardDirective`, `BadgePromoDirective`).
- *   - Variável `carregando` controlada pela diretiva estrutural `@if` no HTML.
- *   - Array `listaRoupas` percorrido pela diretiva estrutural `@for` no HTML.
+ * • NETO (Requisito 5 — 2 Diretivas Personalizadas + `@if` e `@for`):
+ *   - Linhas 65 e 66: Importa as 2 Diretivas Personalizadas (`DestaqueCardDirective`
+ *     e `BadgePromoDirective`).
+ *   - Linha 100: Lista `listaRoupas` que o `@for` repete no HTML.
+ *   - Linha 106: Variável `carregando` que o `@if` usa para mostrar o loading.
  * ============================================================================
  */
 
@@ -73,16 +72,16 @@ import { SacolaService } from '../../services/sacola.service';
   standalone: true,
   imports: [
     RouterLink,
-    // 2 Pipes Built-in nativas do Angular (Integrante 4 - Requisito 3)
+    // [GAGO - Requisito 3]: 2 Pipes Built-in nativas do Angular
     CurrencyPipe,
     UpperCasePipe,
-    // 2 Pipes Personalizadas criadas para o projeto (Integrante 4 - Requisito 3)
+    // [GAGO - Requisito 3]: 2 Pipes Personalizadas criadas por nós
     TraduzirCategoriaPipe,
     DescontoPixPipe,
-    // 2 Diretivas Personalizadas criadas para o projeto (Integrante 5 - Requisito 5)
+    // [NETO - Requisito 5]: 2 Diretivas Personalizadas criadas por nós
     DestaqueCardDirective,
     BadgePromoDirective,
-    // Componentes visuais do Ionic (Integrante 1 - Requisito 1)
+    // [MENINO MAL - Requisito 1]: Componentes visuais do Ionic
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -107,35 +106,21 @@ import { SacolaService } from '../../services/sacola.service';
   ],
 })
 export class CatalogoPage implements OnInit {
-  /**
-   * INJEÇÃO DOS 2 SERVICES OBRIGATÓRIOS (Requisito 4):
-   * - roupasService (Integrante 2): Consome a Fake Store API via HttpClient.
-   * - sacolaService (Integrante 3): Gerencia os itens adicionados à sacola.
-   */
+  // [THIAGO - Requisito 2 e 4]: 1º Service que busca as roupas na Fake Store API
   private readonly roupasService = inject(RoupasService);
+
+  // [RAFAEL - Requisito 4]: 2º Service que gerencia a Sacola de Compras
   public readonly sacolaService = inject(SacolaService);
 
   private readonly route = inject(ActivatedRoute);
-
-  /**
-   * ChangeDetectorRef notifica o Angular 22 (Zoneless) assim que os dados da API chegam,
-   * evitando que a tela fique presa no carregamento.
-   */
   private readonly cdr = inject(ChangeDetectorRef);
 
-  /**
-   * Array de roupas retornado pela API (renderizado com @for pelo Integrante 5).
-   */
+  // [NETO - Requisito 5]: Lista de roupas que o bloco @for percorre no HTML
   public listaRoupas: ProdutoRoupa[] = [];
 
-  /**
-   * Departamento selecionado ('masculino' -> GET 1 | 'feminino' -> GET 2).
-   */
   public departamentoAtivo: 'masculino' | 'feminino' = 'masculino';
 
-  /**
-   * Controle booleano de carregamento (usado com @if pelo Integrante 5).
-   */
+  // [NETO - Requisito 5]: Variável que o bloco @if verifica para mostrar o spinner
   public carregando: boolean = true;
 
   public erroCarregamento: string = '';
@@ -143,7 +128,6 @@ export class CatalogoPage implements OnInit {
   public ultimoAdicionadoId: number | null = null;
 
   ngOnInit(): void {
-    // Verifica se o usuário clicou em "Moda Masculina" ou "Moda Feminina" na Home
     this.route.queryParamMap.subscribe((params) => {
       const linha = params.get('linha');
       if (linha === 'feminino') {
@@ -162,7 +146,7 @@ export class CatalogoPage implements OnInit {
   }
 
   /**
-   * Executa o MÉTODO GET 1 ou o MÉTODO GET 2 do RoupasService (Integrante 2 - Requisito 2).
+   * [THIAGO - Requisito 2]: Chama o MÉTODO GET 1 (Masculino) ou o MÉTODO GET 2 (Feminino)
    */
   carregarRoupasPorDepartamento(departamento: 'masculino' | 'feminino'): void {
     this.departamentoAtivo = departamento;
@@ -188,7 +172,7 @@ export class CatalogoPage implements OnInit {
   }
 
   /**
-   * Aciona o 2º Service (SacolaService - Integrante 3 / Requisito 4).
+   * [RAFAEL - Requisito 4]: Usa o 2º Service (SacolaService) para adicionar a peça
    */
   adicionarNaSacola(evento: Event, roupa: ProdutoRoupa): void {
     evento.stopPropagation();

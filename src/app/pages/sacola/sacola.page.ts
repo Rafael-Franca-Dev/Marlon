@@ -1,25 +1,23 @@
 /**
  * ============================================================================
- * GUIA DE ESTUDO DO CÓDIGO — PÁGINA 4: SacolaPage (Sacola de Compras)
- * ARQUIVO: src/app/pages/sacola/sacola.page.ts
+ * 👤 PÁGINA 4: SACOLA DE COMPRAS (src/app/pages/sacola/sacola.page.ts)
  * ============================================================================
- * ONDE CADA INTEGRANTE DEVE PROCURAR SEU REQUISITO NESTE ARQUIVO:
+ * 📍 ONDE CADA UM DOS 5 INTEGRANTES DEVE MOSTRAR SEU REQUISITO NESTE ARQUIVO:
  *
- * • INTEGRANTE 1 (Requisito 1 — 4 Páginas e UI/UX):
- *   - Linha 47: Decorator `@Component` da 4ª Página (`SacolaPage`, standalone: true).
+ * • RAFAEL (Requisito 4 - Parte 2 — 2º Service `SacolaService`):
+ *   - Linha 74: `public readonly sacolaService = inject(SacolaService)`.
+ *   - Linhas 80 a 101: Métodos `aumentarItem`, `diminuirItem`, `excluirItem`,
+ *     `esvaziarSacola` e `finalizarCompra` que chamam o `SacolaService`.
  *
- * • INTEGRANTE 3 (Requisito 4 - Parte 2 — 2º Service `SacolaService`):
- *   - Linha 81: Injeção do 2º Service (`public readonly sacolaService = inject(SacolaService)`).
- *   - Linhas 91 a 122: Métodos `aumentarItem`, `diminuirItem`, `excluirItem`,
- *     `esvaziarSacola` e `finalizarCompra` que consomem o `SacolaService`.
+ * • MENINO MAL (Requisito 1 — As 4 Páginas):
+ *   - Linha 44: `@Component` da 4ª Página (`SacolaPage`, standalone: true).
  *
- * • INTEGRANTE 4 (Requisito 3 — 4 Pipes):
- *   - Linhas 53 a 57: Importação das 2 Pipes Built-in (`CurrencyPipe`, `UpperCasePipe`)
- *     e das 2 Pipes Personalizadas (`TraduzirCategoriaPipe`, `DescontoPixPipe`).
+ * • GAGO (Requisito 3 — As 4 Pipes):
+ *   - Linhas 51 a 55: Importa `CurrencyPipe`, `UpperCasePipe`, `TraduzirCategoriaPipe`, `DescontoPixPipe`.
  *
- * • INTEGRANTE 5 (Requisito 5 — 2 Diretivas Personalizadas + `@if` e `@for`):
- *   - Linhas 59 e 60: Importação de `DestaqueCardDirective` e `BadgePromoDirective`.
- *   - Linha 86: Variável `pedidoConfirmado` controlada por `@if` no template HTML.
+ * • NETO (Requisito 5 — Diretivas Personalizadas + `@if` e `@for`):
+ *   - Linhas 57 e 58: Importa `DestaqueCardDirective` e `BadgePromoDirective`.
+ *   - Linha 78: Variável `pedidoConfirmado` controlada por `@if` no HTML.
  * ============================================================================
  */
 
@@ -59,16 +57,15 @@ import { SacolaService } from '../../services/sacola.service';
   standalone: true,
   imports: [
     RouterLink,
-    // 2 Pipes Built-in nativas do Angular (Integrante 4 - Requisito 3)
+    // [GAGO - Requisito 3]: 2 Pipes Built-in nativas + 2 Pipes Personalizadas
     CurrencyPipe,
     UpperCasePipe,
-    // 2 Pipes Personalizadas (Integrante 4 - Requisito 3)
     TraduzirCategoriaPipe,
     DescontoPixPipe,
-    // 2 Diretivas Personalizadas (Integrante 5 - Requisito 5)
+    // [NETO - Requisito 5]: 2 Diretivas Personalizadas
     DestaqueCardDirective,
     BadgePromoDirective,
-    // Componentes do Ionic (Integrante 1 - Requisito 1)
+    // [MENINO MAL - Requisito 1]: Componentes do Ionic
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -88,14 +85,10 @@ import { SacolaService } from '../../services/sacola.service';
   ],
 })
 export class SacolaPage {
-  /**
-   * Injeção do 2º Service do projeto (`SacolaService` - Integrante 3 / Requisito 4)
-   */
+  // [RAFAEL - Requisito 4]: Injeta o 2º Service do projeto (SacolaService)
   public readonly sacolaService = inject(SacolaService);
 
-  /**
-   * Controle booleano de confirmação de compra (usado com `@if` pelo Integrante 5).
-   */
+  // [NETO - Requisito 5]: Variável usada pelo bloco @if para mostrar a tela de sucesso
   public pedidoConfirmado: boolean = false;
 
   aumentarItem(produto: ProdutoRoupa): void {
